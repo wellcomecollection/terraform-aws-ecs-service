@@ -58,5 +58,5 @@ module "secrets" {
 
   secret_env_vars = var.secret_env_vars
 
-  execution_role_name = var.execution_role_name
+  execution_role_name = module.task_role.task_execution_role_name
 }

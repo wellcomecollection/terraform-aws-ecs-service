@@ -1,5 +1,3 @@
-variable "aws_region" {}
-
 variable "task_name" {}
 
 variable "task_port" {
@@ -8,8 +6,13 @@ variable "task_port" {
 
 variable "container_image" {}
 
-variable "cpu" {}
-variable "memory" {}
+variable "cpu" {
+  default = 512
+}
+
+variable "memory" {
+  default = 1024
+}
 
 variable "mount_points" {
   type    = "list"
@@ -20,8 +23,6 @@ variable "command" {
   type    = "list"
   default = []
 }
-
-variable "execution_role_name" {}
 
 variable "env_vars" {
   description = "Environment variables to pass to the container"
@@ -38,3 +39,9 @@ variable "secret_env_vars" {
 variable "user" {
   default = "root"
 }
+
+variable "launch_type" {
+  default = "FARGATE"
+}
+
+variable "aws_region" {}
