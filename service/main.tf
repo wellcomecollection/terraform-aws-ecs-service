@@ -18,12 +18,14 @@ resource "aws_ecs_service" "service" {
   network_configuration {
     subnets          = var.subnets
     security_groups  = var.security_group_ids
-    assign_public_ip = false
+    assign_public_ip = "${length(var.load_balancer) > 0}"
   }
 
   service_registries {
     registry_arn = aws_service_discovery_service.service_discovery.arn
   }
+
+  load_balancer = var.load_balancer
 }
 
 resource "aws_service_discovery_service" "service_discovery" {

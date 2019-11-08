@@ -35,3 +35,7 @@ variable "service_discovery_failure_threshold" {
 variable "launch_type" {
   default = "FARGATE"
 }
+
+variable "load_balancer" {
+  default = []
+}
