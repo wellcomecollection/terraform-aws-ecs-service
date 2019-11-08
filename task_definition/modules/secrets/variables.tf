@@ -3,6 +3,4 @@ variable "secret_env_vars" {
   type        = "map"
 }
 
-variable "secret_env_vars_length" {}
-
 variable "execution_role_name" {}
