@@ -5,9 +5,17 @@
 # To get around this, we check the presence of the target_group_arn variable.
 # If it's present, we create `lb_service` with this load_balancer block.
 # If it's empty, we create `service` without.
+#
+# We condition on container_port rather than target_group_arn, because this should
+# be a static string declared immediately.  If you use target_group_arn, and
+# when you create the module you fill it in dynamically, e..g
+#
+#     target_group_arn = aws_lb_target_group.tcp.arn
+#
+# Terraform can't work out if it's non-empty, and gets upset trying to plan.
 
 resource "aws_ecs_service" "service" {
-  count = "${var.target_group_arn == "" ? 1 : 0}"
+  count = "${var.container_port == "" ? 1 : 0}"
 
   name            = local.service_name
   cluster         = var.cluster_arn
@@ -31,7 +39,7 @@ resource "aws_ecs_service" "service" {
 }
 
 resource "aws_ecs_service" "lb_service" {
-  count = "${var.target_group_arn == "" ? 0 : 1}"
+  count = "${var.container_port == "" ? 0 : 1}"
 
   name            = local.service_name
   cluster         = var.cluster_arn
