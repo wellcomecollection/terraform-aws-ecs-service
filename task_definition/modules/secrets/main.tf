@@ -2,7 +2,7 @@ data "template_file" "name_val_pair" {
   # This module constructs a JSON string in the same way as the `env_vars`
   # module, and has the same issue that requires us to pass the length of
   # the env_vars map as a variable.
-  count = var.secret_env_vars_length
+  count = local.secret_env_vars_length
 
   template = <<EOF
   {
