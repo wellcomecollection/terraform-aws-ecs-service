@@ -33,7 +33,7 @@ data "template_file" "container_definition" {
     sidecar_log_group_name = aws_cloudwatch_log_group.sidecar_log_group.name
 
     sidecar_container_image = var.sidecar_container_image
-    sidecar_container_name  = "sidecar"
+    sidecar_container_name  = "nginx"
 
     sidecar_port_mappings = jsonencode([
       {
