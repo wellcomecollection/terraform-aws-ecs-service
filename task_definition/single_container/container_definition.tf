@@ -11,7 +11,7 @@ data "template_file" "container_definition" {
   vars = {
     log_group_region = var.aws_region
     log_group_name   = aws_cloudwatch_log_group.log_group.name
-    log_group_prefix = var.log_group_prefix
+    log_group_prefix = "ecs"
 
     container_image = var.container_image
     container_name  = local.container_name
