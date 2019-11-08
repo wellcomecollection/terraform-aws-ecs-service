@@ -10,7 +10,7 @@ data "template_file" "container_definition" {
 
   vars = {
     log_group_region = var.aws_region
-    log_group_name   = module.log_group.name
+    log_group_name   = aws_cloudwatch_log_group.log_group.name
     log_group_prefix = var.log_group_prefix
 
     container_image = var.container_image
