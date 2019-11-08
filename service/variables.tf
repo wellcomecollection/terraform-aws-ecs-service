@@ -36,6 +36,14 @@ variable "launch_type" {
   default = "FARGATE"
 }
 
-variable "load_balancer" {
-  default = []
+variable "target_group_arn" {
+  default = ""
+}
+
+variable "container_name" {
+  default = ""
+}
+
+variable "container_port" {
+  default = ""
 }
