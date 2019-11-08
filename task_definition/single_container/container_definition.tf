@@ -11,16 +11,6 @@ data "template_file" "container_definition" {
 
     secrets = module.secrets.env_vars_string
 
-    port_mappings = jsonencode([
-      {
-        "containerPort" = var.task_port,
-
-        # TODO: I think we can safely drop both these arguments.
-        "hostPort" = var.task_port,
-        "protocol" = "tcp"
-      }
-    ])
-
     environment_vars = module.env_vars.env_vars_string
 
     command = jsonencode(var.command)

@@ -1,9 +1,5 @@
 variable "task_name" {}
 
-variable "task_port" {
-  default = ""
-}
-
 variable "container_image" {}
 
 variable "cpu" {
