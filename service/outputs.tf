@@ -1,3 +1,3 @@
-output "service_name" {
+output "name" {
   value = local.service_name
 }
