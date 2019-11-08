@@ -8,7 +8,6 @@
     "environment": ${environment_vars},
     "secrets": ${secrets},
     "networkMode": "awsvpc",
-    "portMappings": ${port_mappings},
     "command": ${command},
     "logConfiguration": {
         "logDriver": "awslogs",
