@@ -1,5 +1,5 @@
 data "template_file" "container_definition" {
-  template = "${file("${path.module}/task_definition.json.template")}"
+  template = "${file("${path.module}/task_definition.json.tpl")}"
 
   vars = {
     log_group_region = var.aws_region
