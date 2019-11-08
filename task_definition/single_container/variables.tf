@@ -1,7 +1,7 @@
 variable "task_name" {}
 
 variable "task_port" {
-  default = "false"
+  default = ""
 }
 
 variable "container_image" {}
