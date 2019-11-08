@@ -56,7 +56,7 @@ data "template_file" "name_val_pair" {
   // from terraform resource types).
   //
   // TODO compute count once those issues are closed
-  count = length(var.env_vars
+  count = length(var.env_vars)
 
   template = "{\"name\": $${jsonencode(key)}, \"value\": $${jsonencode(value)}}"
 
