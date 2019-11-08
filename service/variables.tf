@@ -1,7 +1,7 @@
 variable "service_name" {}
 variable "cluster_arn" {}
 
-variable "task_desired_count" {
+variable "desired_task_count" {
   default = 1
 }
 
@@ -28,7 +28,7 @@ variable "deployment_maximum_percent" {
   default = "200"
 }
 
-variable service_discovery_failure_threshold {
+variable "service_discovery_failure_threshold" {
   default = 1
 }
 

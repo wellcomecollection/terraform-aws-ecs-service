@@ -8,7 +8,7 @@ resource "aws_ecs_service" "service" {
   name            = var.service_name
   cluster         = var.cluster_arn
   task_definition = var.task_definition_arn
-  desired_count   = var.task_desired_count
+  desired_count   = var.desired_task_count
 
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
   deployment_maximum_percent         = var.deployment_maximum_percent
