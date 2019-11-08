@@ -1,7 +1,11 @@
+local {
+  service_name = var.service_name
+}
+
 module "iam_role" {
   source = "./iam_role"
 
-  service_name = aws_ecs_service.service.name
+  service_name = local.service_name
 }
 
 resource "aws_service_discovery_service" "service_discovery" {

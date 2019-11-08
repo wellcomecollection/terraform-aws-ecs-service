@@ -9,7 +9,7 @@
 resource "aws_ecs_service" "service" {
   count = "${var.target_group_arn == "" ? 1 : 0}"
 
-  name            = var.service_name
+  name            = local.service_name
   cluster         = var.cluster_arn
   task_definition = var.task_definition_arn
   desired_count   = var.desired_task_count
@@ -33,7 +33,7 @@ resource "aws_ecs_service" "service" {
 resource "aws_ecs_service" "lb_service" {
   count = "${var.target_group_arn == "" ? 0 : 1}"
 
-  name            = var.service_name
+  name            = local.service_name
   cluster         = var.cluster_arn
   task_definition = var.task_definition_arn
   desired_count   = var.desired_task_count
