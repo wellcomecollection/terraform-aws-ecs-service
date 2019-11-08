@@ -1,10 +1,3 @@
-locals {
-  mount_points   = jsonencode(var.mount_points)
-  log_group_name = var.task_name
-  container_name = "app"
-  command        = jsonencode(var.command)
-}
-
 data "template_file" "container_definition" {
   template = "${file("${path.module}/task_definition.json.tpl")}"
 
@@ -14,7 +7,7 @@ data "template_file" "container_definition" {
     log_group_prefix = "ecs"
 
     container_image = var.container_image
-    container_name  = local.container_name
+    container_name  = "app"
 
     secrets = module.secrets.env_vars_string
 
@@ -30,12 +23,12 @@ data "template_file" "container_definition" {
 
     environment_vars = module.env_vars.env_vars_string
 
-    command = local.command
+    command = jsonencode(var.command)
 
     cpu    = var.cpu
     memory = var.memory
 
-    mount_points = local.mount_points
+    mount_points = jsonencode(var.mount_points)
 
     user = var.user
   }
