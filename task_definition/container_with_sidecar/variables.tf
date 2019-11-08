@@ -6,7 +6,7 @@ variable "memory" {}
 # App
 
 variable "app_container_image" {}
-
+variable "app_container_port" {}
 variable "app_cpu" {}
 variable "app_memory" {}
 
@@ -28,7 +28,7 @@ variable "secret_app_env_vars" {
 # Sidecar
 
 variable "sidecar_container_image" {}
-
+variable "sidecar_container_port" {}
 variable "sidecar_cpu" {}
 variable "sidecar_memory" {}
 
