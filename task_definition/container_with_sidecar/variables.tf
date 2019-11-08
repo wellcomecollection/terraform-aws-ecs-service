@@ -1,5 +1,8 @@
 variable "task_name" {}
 
+variable "cpu" {}
+variable "memory" {}
+
 # App
 
 variable "app_container_image" {}
