@@ -3,7 +3,7 @@ data "template_file" "container_definition" {
 
   vars = {
     log_group_region = var.aws_region
-    log_group_prefix = ecs
+    log_group_prefix = "ecs"
 
     # App vars
     app_log_group_name = aws_cloudwatch_log_group.app_log_group.name
