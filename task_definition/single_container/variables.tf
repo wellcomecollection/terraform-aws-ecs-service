@@ -6,11 +6,6 @@ variable "task_port" {
   default = "false"
 }
 
-variable "log_group_prefix" {
-  description = "Cloudwatch log group name prefix"
-  default     = "ecs"
-}
-
 variable "container_image" {}
 
 variable "cpu" {}

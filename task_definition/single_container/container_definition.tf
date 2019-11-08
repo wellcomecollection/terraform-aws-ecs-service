@@ -5,7 +5,7 @@ locals {
   command        = jsonencode(var.command)
 }
 
-data "template_file" "definition" {
+data "template_file" "container_definition" {
   template = "${file("${path.module}/task_definition.json.tpl")}"
 
   vars = {
