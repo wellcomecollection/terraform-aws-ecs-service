@@ -36,6 +36,17 @@ resource "aws_ecs_service" "service" {
   service_registries {
     registry_arn = aws_service_discovery_service.service_discovery.arn
   }
+
+  # The desired_count of our services can be changed externally (e.g. by autoscaling).
+  # If Terraform clamps it back down, it can prematurely terminate work, and
+  # we have to wait for services to scale back up.
+  #
+  # Ignoring the change here means Terraform doesn't interfere with autoscaling.
+  lifecycle {
+    ignore_changes = [
+      "desired_count",
+    ]
+  }
 }
 
 resource "aws_ecs_service" "lb_service" {
@@ -65,5 +76,16 @@ resource "aws_ecs_service" "lb_service" {
     target_group_arn = var.target_group_arn
     container_name   = var.container_name
     container_port   = var.container_port
+  }
+
+  # The desired_count of our services can be changed externally (e.g. by autoscaling).
+  # If Terraform clamps it back down, it can prematurely terminate work, and
+  # we have to wait for services to scale back up.
+  #
+  # Ignoring the change here means Terraform doesn't interfere with autoscaling.
+  lifecycle {
+    ignore_changes = [
+      "desired_count",
+    ]
   }
 }
