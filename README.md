@@ -1,5 +1,7 @@
 # terraform-aws-ecs-single-container
 
+[![Build Status](https://travis-ci.org/wellcomecollection/terraform-aws-ecs-service.svg?branch=master)](https://travis-ci.org/wellcomecollection/terraform-aws-ecs-service)
+
 This repo contains some modules that are useful for creating an ECS task.
 
 In particular, you should look at:
