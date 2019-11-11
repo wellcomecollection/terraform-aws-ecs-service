@@ -1,0 +1,30 @@
+language: "sh"
+
+sudo: "required"
+
+services:
+  - "docker"
+
+dist: "trusty"
+
+branches:
+  only:
+    - "master"
+
+jobs:
+  include:
+    - env:
+        - REPO_URL=git@github.com:wellcomecollection/terraform-aws-ecs-service.git
+        - TASK=autoformat
+    - env:
+        - REPO_URL=git@github.com:wellcomecollection/terraform-aws-ecs-service.git
+        - TASK=release
+      stage: "release"
+
+script:
+  - python3 tf_tooling.py "$TASK"
+
+stages:
+  - "test"
+  - name: "release"
+    if: "type = push"
