@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v1.0.2 - 2019-11-19
+
+Fix a deprecation warning with some type constraints on variables (e.g. using
+`map(string)` instead of `"map"`).
+
+This should improve error reporting if you've passed a variable that doesn't match
+the type contraints.
+
 ## v1.0.1 - 2019-11-11
 
 When using the `service` module, changes to `desired_count` (how many instances of the service to run) are ignored using Terraform's [ignore_changes feature](https://www.terraform.io/docs/configuration/resources.html#ignore_changes).
