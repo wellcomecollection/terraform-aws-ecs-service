@@ -16,12 +16,12 @@ variable "app_mount_points" {
 }
 
 variable "app_env_vars" {
-  type    = "map"
+  type    = map(string)
   default = {}
 }
 
 variable "secret_app_env_vars" {
-  type    = "map"
+  type    = map(string)
   default = {}
 }
 
@@ -38,12 +38,12 @@ variable "sidecar_mount_points" {
 }
 
 variable "sidecar_env_vars" {
-  type    = "map"
+  type    = map(string)
   default = {}
 }
 
 variable "secret_sidecar_env_vars" {
-  type    = "map"
+  type    = map(string)
   default = {}
 }
 

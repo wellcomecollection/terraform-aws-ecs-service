@@ -8,7 +8,7 @@ variable "desired_task_count" {
 variable "task_definition_arn" {}
 
 variable "subnets" {
-  type = "list"
+  type = list(string)
 }
 
 variable "namespace_id" {
@@ -16,16 +16,16 @@ variable "namespace_id" {
 }
 
 variable "security_group_ids" {
-  type    = "list"
+  type    = list(string)
   default = []
 }
 
 variable "deployment_minimum_healthy_percent" {
-  default = "100"
+  default = 100
 }
 
 variable "deployment_maximum_percent" {
-  default = "200"
+  default = 200
 }
 
 variable "service_discovery_failure_threshold" {

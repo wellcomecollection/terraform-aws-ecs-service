@@ -16,19 +16,19 @@ variable "mount_points" {
 }
 
 variable "command" {
-  type    = "list"
+  type    = list(string)
   default = []
 }
 
 variable "env_vars" {
   description = "Environment variables to pass to the container"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
 variable "secret_env_vars" {
   description = "Secure environment variables to pass to the container"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
