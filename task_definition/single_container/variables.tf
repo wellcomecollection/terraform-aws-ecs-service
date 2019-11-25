@@ -11,7 +11,7 @@ variable "memory" {
 }
 
 variable "mount_points" {
-  type    = "list"
+  type    = list(string)
   default = []
 }
 

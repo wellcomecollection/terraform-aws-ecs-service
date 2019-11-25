@@ -43,7 +43,7 @@ locals {
 resource "aws_iam_role_policy" "allow_read_secrets" {
   # If there aren't any environment variables, the policy document will be
   # empty and we can skip creating the policy.
-  count = "${local.secret_env_vars_length > 0 ? 1 : 0}"
+  count = local.secret_env_vars_length > 0 ? 1 : 0
 
   role   = var.execution_role_name
   policy = data.aws_iam_policy_document.read_secrets.json

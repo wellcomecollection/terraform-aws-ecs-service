@@ -15,7 +15,7 @@
 # Terraform can't work out if it's non-empty, and gets upset trying to plan.
 
 resource "aws_ecs_service" "service" {
-  count = "${var.container_port == "" ? 1 : 0}"
+  count = var.container_port == "" ? 1 : 0
 
   name            = local.service_name
   cluster         = var.cluster_arn
@@ -44,13 +44,13 @@ resource "aws_ecs_service" "service" {
   # Ignoring the change here means Terraform doesn't interfere with autoscaling.
   lifecycle {
     ignore_changes = [
-      "desired_count",
+      desired_count,
     ]
   }
 }
 
 resource "aws_ecs_service" "lb_service" {
-  count = "${var.container_port == "" ? 0 : 1}"
+  count = var.container_port == "" ? 0 : 1
 
   name            = local.service_name
   cluster         = var.cluster_arn
@@ -85,7 +85,7 @@ resource "aws_ecs_service" "lb_service" {
   # Ignoring the change here means Terraform doesn't interfere with autoscaling.
   lifecycle {
     ignore_changes = [
-      "desired_count",
+      desired_count,
     ]
   }
 }

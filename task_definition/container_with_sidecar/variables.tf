@@ -11,7 +11,7 @@ variable "app_cpu" {}
 variable "app_memory" {}
 
 variable "app_mount_points" {
-  type    = "list"
+  type    = list(string)
   default = []
 }
 
@@ -33,7 +33,7 @@ variable "sidecar_cpu" {}
 variable "sidecar_memory" {}
 
 variable "sidecar_mount_points" {
-  type    = "list"
+  type    = list(string)
   default = []
 }
 
