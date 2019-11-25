@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.0.3 - 2019-11-25
+## v1.1.0 - 2019-11-25
 
 autoscaling module:
 
