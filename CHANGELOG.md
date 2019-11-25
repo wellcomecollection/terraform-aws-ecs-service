@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v1.0.3 - 2019-11-25
+
+autoscaling module:
+
+*   This is a new module, meant to replace a module from the old terraform-modules repo.
+
+service, task_definition modules:
+
+*   Tweaks to type constraints in variables so they don't emit a deprecation warning
+    from Terraform.  There should be no user visible change.
+
 ## v1.0.2 - 2019-11-19
 
 Fix a deprecation warning with some type constraints on variables (e.g. using
