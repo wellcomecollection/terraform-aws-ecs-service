@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v1.1.1 - 2019-11-28
+
+task_definition/modules/env_vars:
+
+*   A small change to the way the JSON string passed to ECS is constructed.
+    In particular, environment variable definitions should now have a stable
+    sort order, and not change order between plans.
+
 ## v1.1.0 - 2019-11-25
 
 autoscaling module:
