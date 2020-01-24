@@ -3,6 +3,11 @@ variable "task_name" {}
 variable "cpu" {}
 variable "memory" {}
 
+variable "use_awslogs" {
+  type = bool
+  default = false
+}
+
 # App
 
 variable "app_container_image" {}

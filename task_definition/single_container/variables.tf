@@ -15,6 +15,11 @@ variable "mount_points" {
   default = []
 }
 
+variable "use_awslogs" {
+  type = bool
+  default = false
+}
+
 variable "command" {
   type    = list(string)
   default = []
