@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.2.0 - 2020-02-11
+
+task_definition/container_with_sidecar:
+task_definition/single_container:
+
+*   Added a `use_awslogs` variable which includes the `loggingConfiguration` block from previous versions if `true`. Defaults to `false`, omitting all logging config.
+
 ## v1.1.1 - 2019-11-28
 
 task_definition/modules/env_vars:
