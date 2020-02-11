@@ -2,6 +2,8 @@ data "template_file" "container_definition" {
   template = "${file("${path.module}/task_definition.json.tpl")}"
 
   vars = {
+    use_aws_logs = var.use_awslogs
+
     log_group_region = var.aws_region
     log_group_prefix = "ecs"
 

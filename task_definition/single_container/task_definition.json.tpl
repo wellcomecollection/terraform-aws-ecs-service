@@ -9,6 +9,7 @@
     "secrets": ${secrets},
     "networkMode": "awsvpc",
     "command": ${command},
+    %{ if use_aws_logs }
     "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -17,6 +18,7 @@
             "awslogs-stream-prefix": "${log_group_prefix}"
         }
     },
+    %{ endif }
     "user": "${user}",
     "mountPoints": ${mount_points}
   }

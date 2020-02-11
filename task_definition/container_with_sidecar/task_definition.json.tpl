@@ -8,6 +8,7 @@
     "memory": ${sidecar_memory},
     "cpu": ${sidecar_cpu},
     "portMappings": ${sidecar_port_mappings},
+    %{ if use_aws_logs }
     "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -16,6 +17,7 @@
             "awslogs-stream-prefix": "${log_group_prefix}"
         }
     },
+    %{ endif }
     "user": "${sidecar_user}",
     "mountPoints": ${sidecar_mount_points}
   },
@@ -28,6 +30,7 @@
     "environment": ${app_environment_vars},
     "secrets": ${app_secret_environment_vars},
     "portMappings": ${app_port_mappings},
+    %{ if use_aws_logs }
     "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -36,6 +39,7 @@
             "awslogs-stream-prefix": "${log_group_prefix}"
         }
     },
+    %{ endif }
     "user": "${app_user}",
     "mountPoints": ${app_mount_points}
   }
