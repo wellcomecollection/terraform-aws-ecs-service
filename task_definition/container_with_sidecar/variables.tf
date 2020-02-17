@@ -16,7 +16,7 @@ variable "app_cpu" {}
 variable "app_memory" {}
 
 variable "app_mount_points" {
-  type    = list(string)
+  type    = list(map(string))
   default = []
 }
 
@@ -38,7 +38,7 @@ variable "sidecar_cpu" {}
 variable "sidecar_memory" {}
 
 variable "sidecar_mount_points" {
-  type    = list(string)
+  type    = list(map(string))
   default = []
 }
 
@@ -50,6 +50,14 @@ variable "sidecar_env_vars" {
 variable "secret_sidecar_env_vars" {
   type    = map(string)
   default = {}
+}
+
+variable "ebs_volume_name" {
+  default = ""
+}
+
+variable "ebs_host_path" {
+  default = ""
 }
 
 variable "app_user" {
