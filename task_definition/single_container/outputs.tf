@@ -1,5 +1,5 @@
 output "arn" {
-  value = aws_ecs_task_definition.task.arn
+  value = local.task_definition_arn
 }
 
 output "task_role_name" {

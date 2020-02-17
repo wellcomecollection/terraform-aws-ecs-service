@@ -11,7 +11,7 @@ variable "memory" {
 }
 
 variable "mount_points" {
-  type    = list(string)
+  type    = list(map(string))
   default = []
 }
 
@@ -35,6 +35,14 @@ variable "secret_env_vars" {
   description = "Secure environment variables to pass to the container"
   type        = map(string)
   default     = {}
+}
+
+variable "ebs_volume_name" {
+  default = ""
+}
+
+variable "ebs_host_path" {
+  default = ""
 }
 
 variable "user" {
