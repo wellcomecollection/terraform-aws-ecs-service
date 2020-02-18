@@ -4,17 +4,7 @@ module "task_role" {
   task_name = var.task_name
 }
 
-# The presence of two almost identical blocks of config is working
-# around a limitation in Terraform: specifically, we can't make the
-# volume and placement_constraints blocks optional.
-#
-# To get around this, we check the presence of the ebs_volume_name variable.
-# If it's present, we create `ebs_task` with this load_balancer block.
-# If it's empty, we create `task` without.
-
 resource "aws_ecs_task_definition" "task" {
-  count = var.ebs_volume_name == "" ? 1 : 0
-
   family                = var.task_name
   container_definitions = data.template_file.container_definition.rendered
 
@@ -27,41 +17,32 @@ resource "aws_ecs_task_definition" "task" {
 
   cpu    = var.cpu
   memory = var.memory
-}
 
-resource "aws_ecs_task_definition" "task_with_ebs" {
-  count = var.ebs_volume_name == "" ? 0 : 1
+  # This is a slightly obtuse way to make these two blocks conditional.
+  # They should only be created if this task definition is using EBS volume
+  # mounts; otherwise they should be ignored.
+  #
+  # This is a kludge around Terraform's "dynamic blocks".
+  # See https://www.terraform.io/docs/configuration/expressions.html#dynamic-blocks
+  #
+  # There's an open feature request on the Terraform repo to add syntactic
+  # sugar for this sort of conditional block.  If that ever arises, we should
+  # use that instead.  See https://github.com/hashicorp/terraform/issues/21512
+  dynamic "volume" {
+    for_each = var.ebs_volume_name == "" ? [] : [{}]
 
-  family                = var.task_name
-  container_definitions = data.template_file.container_definition.rendered
-
-  task_role_arn      = module.task_role.task_role_arn
-  execution_role_arn = module.task_role.task_execution_role_arn
-
-  network_mode = "awsvpc"
-
-  # For now, using EBS/EFS means we need to be on EC2 instance.
-  requires_compatibilities = ["EC2"]
-
-  cpu    = var.cpu
-  memory = var.memory
-
-  volume {
-    name      = var.ebs_volume_name
-    host_path = var.ebs_host_path
+    content {
+      name      = var.ebs_volume_name
+      host_path = var.ebs_host_path
+    }
   }
 
-  placement_constraints {
-    type       = "memberOf"
-    expression = "attribute:ebs.volume exists"
+  dynamic "placement_constraints" {
+    for_each = var.ebs_volume_name == "" ? [] : [{}]
+
+    content {
+      type       = "memberOf"
+      expression = "attribute:ebs.volume exists"
+    }
   }
-}
-
-locals {
-  all_task_definition_arns = concat(
-    aws_ecs_task_definition.task.*.arn,
-    aws_ecs_task_definition.task_with_ebs.*.arn
-  )
-
-  task_definition_arn = local.all_task_definition_arns[0]
 }
