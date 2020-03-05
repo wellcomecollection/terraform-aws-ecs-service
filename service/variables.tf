@@ -47,3 +47,8 @@ variable "container_name" {
 variable "container_port" {
   default = ""
 }
+
+variable "use_fargate_spot" {
+  type    = bool
+  default = false
+}

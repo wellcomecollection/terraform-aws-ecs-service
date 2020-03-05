@@ -19,6 +19,15 @@ resource "aws_ecs_service" "service" {
     registry_arn = aws_service_discovery_service.service_discovery.arn
   }
 
+  dynamic "capacity_provider_strategy" {
+    for_each = var.use_fargate_spot ? [{}] : []
+
+    content {
+      capacity_provider = "FARGATE_SPOT"
+      weight            = 1
+    }
+  }
+
   # This is a slightly obtuse way to make this block conditional.
   # They should only be created if this task definition is using EBS volume
   # mounts; otherwise they should be ignored.
