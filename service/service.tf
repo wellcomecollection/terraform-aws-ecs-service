@@ -7,8 +7,6 @@ resource "aws_ecs_service" "service" {
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
   deployment_maximum_percent         = var.deployment_maximum_percent
 
-  launch_type = var.launch_type
-
   network_configuration {
     subnets          = var.subnets
     security_groups  = var.security_group_ids
@@ -17,6 +15,18 @@ resource "aws_ecs_service" "service" {
 
   service_registries {
     registry_arn = aws_service_discovery_service.service_discovery.arn
+  }
+
+  # We can't specify both a launch type and a capacity provider strategy.
+  launch_type = var.use_fargate_spot ? null : var.launch_type
+
+  dynamic "capacity_provider_strategy" {
+    for_each = var.use_fargate_spot ? [{}] : []
+
+    content {
+      capacity_provider = "FARGATE_SPOT"
+      weight            = 1
+    }
   }
 
   # This is a slightly obtuse way to make this block conditional.
