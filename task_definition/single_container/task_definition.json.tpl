@@ -11,7 +11,7 @@
     "command": ${command},
     %{ if port_mappings_defined }
     "portMappings": ${port_mappings},
-    %{ endif %}
+    %{ endif }
     %{ if use_aws_logs }
     "logConfiguration": {
         "logDriver": "awslogs",
