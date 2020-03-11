@@ -23,6 +23,18 @@ data "template_file" "container_definition" {
     mount_points = jsonencode(var.mount_points)
 
     user = var.user
+
+    port_mappings_defined = var.container_port == "" ? false : true
+
+    port_mappings = jsonencode([
+      {
+        "containerPort" = var.container_port,
+
+        # TODO: I think we can safely drop both these arguments.
+        "hostPort" = var.container_port,
+        "protocol" = "tcp"
+      }
+    ])
   }
 }
 

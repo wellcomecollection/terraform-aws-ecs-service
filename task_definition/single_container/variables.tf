@@ -37,6 +37,8 @@ variable "secret_env_vars" {
   default     = {}
 }
 
+variable "container_port" {}
+
 variable "ebs_volume_name" {
   default = ""
 }
