@@ -9,7 +9,7 @@ data "template_file" "container_definition" {
     log_group_prefix = "ecs"
 
     container_image = var.container_image
-    container_name  = "app"
+    container_name  = var.container_name
 
     secrets = module.secrets.env_vars_string
 
@@ -23,6 +23,18 @@ data "template_file" "container_definition" {
     mount_points = jsonencode(var.mount_points)
 
     user = var.user
+
+    port_mappings_defined = var.container_port == "" ? false : true
+
+    port_mappings = jsonencode([
+      {
+        "containerPort" = var.container_port,
+
+        # TODO: I think we can safely drop both these arguments.
+        "hostPort" = var.container_port,
+        "protocol" = "tcp"
+      }
+    ])
   }
 }
 

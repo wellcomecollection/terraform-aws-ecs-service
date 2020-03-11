@@ -37,11 +37,25 @@ variable "secret_env_vars" {
   default     = {}
 }
 
+variable "container_port" {}
+
+variable "container_name" {
+  default = "app"
+}
+
 variable "ebs_volume_name" {
   default = ""
 }
 
 variable "ebs_host_path" {
+  default = ""
+}
+
+variable "efs_volume_name" {
+  default = ""
+}
+
+variable "efs_host_path" {
   default = ""
 }
 
