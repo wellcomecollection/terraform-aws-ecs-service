@@ -45,4 +45,23 @@ resource "aws_ecs_task_definition" "task" {
       expression = "attribute:ebs.volume exists"
     }
   }
+
+  # We do the same as above for the EFS volume.
+  dynamic "volume" {
+    for_each = var.efs_volume_name == "" ? [] : [{}]
+
+    content {
+      name      = var.efs_volume_name
+      host_path = var.efs_host_path
+    }
+  }
+
+  dynamic "placement_constraints" {
+    for_each = var.efs_volume_name == "" ? [] : [{}]
+
+    content {
+      type       = "memberOf"
+      expression = "attribute:efs.volume exists"
+    }
+  }
 }

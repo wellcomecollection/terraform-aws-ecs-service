@@ -45,6 +45,14 @@ variable "ebs_host_path" {
   default = ""
 }
 
+variable "efs_volume_name" {
+  default = ""
+}
+
+variable "efs_host_path" {
+  default = ""
+}
+
 variable "user" {
   default = "root"
 }
