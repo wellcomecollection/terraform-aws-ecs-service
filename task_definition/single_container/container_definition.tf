@@ -9,7 +9,7 @@ data "template_file" "container_definition" {
     log_group_prefix = "ecs"
 
     container_image = var.container_image
-    container_name  = "app"
+    container_name  = var.container_name
 
     secrets = module.secrets.env_vars_string
 
