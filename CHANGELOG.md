@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v1.5.2 - 2020-03-23
+
+task_definition/container_with_sidecar:
+
+*   Fix a bug introduced in v1.5.0 that would lead to an error when trying to plan:
+
+    > task_definition.tf line 51: An argument definition must end with a newline.
+
 ## v1.5.1 - 2020-03-23
 
 task_definition/single_container:
