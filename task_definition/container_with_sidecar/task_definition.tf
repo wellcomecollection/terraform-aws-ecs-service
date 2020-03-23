@@ -48,7 +48,7 @@ resource "aws_ecs_task_definition" "task" {
 
   # We do the same as above for the EFS volume.
   dynamic "volume" {
-    for_each = var.efs_volume_name = "" ? [] : [{}]
+    for_each = var.efs_volume_name == "" ? [] : [{}]
 
     content {
       name      = var.ebs_volume_name
