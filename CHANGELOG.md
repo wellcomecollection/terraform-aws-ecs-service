@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.5.1 - 2020-03-23
+
+task_definition/single_container:
+
+*   The `container_port` variable added in v1.5.0 is optional, not required.
+
 ## v1.5.0 - 2020-03-11
 
 task_definition/container_with_sidecar:
