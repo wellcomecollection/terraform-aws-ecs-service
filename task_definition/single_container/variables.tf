@@ -37,7 +37,9 @@ variable "secret_env_vars" {
   default     = {}
 }
 
-variable "container_port" {}
+variable "container_port" {
+  default = ""
+}
 
 variable "container_name" {
   default = "app"
