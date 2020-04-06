@@ -11,7 +11,7 @@ data "template_file" "container_definition" {
     app_log_group_name = aws_cloudwatch_log_group.app_log_group.name
 
     app_container_image = var.app_container_image
-    app_container_name  = "app"
+    app_container_name  = var.app_container_name
 
     app_port_mappings = jsonencode([
       {

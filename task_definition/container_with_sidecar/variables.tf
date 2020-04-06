@@ -15,6 +15,10 @@ variable "app_container_port" {}
 variable "app_cpu" {}
 variable "app_memory" {}
 
+variable "app_container_name" {
+  default = "app"
+}
+
 variable "app_mount_points" {
   type    = list(map(string))
   default = []
