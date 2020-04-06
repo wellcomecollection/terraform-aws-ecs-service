@@ -7,7 +7,9 @@
     "image": "${sidecar_container_image}",
     "memory": ${sidecar_memory},
     "cpu": ${sidecar_cpu},
+    %{ if expose_sidecar_port }
     "portMappings": ${sidecar_port_mappings},
+    %{ endif }
     %{ if use_aws_logs }
     "logConfiguration": {
         "logDriver": "awslogs",
@@ -29,7 +31,9 @@
     "name": "${app_container_name}",
     "environment": ${app_environment_vars},
     "secrets": ${app_secret_environment_vars},
+    %{ if expose_app_port }
     "portMappings": ${app_port_mappings},
+    %{ endif }
     %{ if use_aws_logs }
     "logConfiguration": {
         "logDriver": "awslogs",

@@ -11,7 +11,10 @@ variable "use_awslogs" {
 # App
 
 variable "app_container_image" {}
-variable "app_container_port" {}
+variable "app_container_port" {
+  // Leaving this as the default, -1, will not expose a port on the container
+  default = -1
+}
 variable "app_cpu" {}
 variable "app_memory" {}
 
@@ -37,7 +40,10 @@ variable "secret_app_env_vars" {
 # Sidecar
 
 variable "sidecar_container_image" {}
-variable "sidecar_container_port" {}
+variable "sidecar_container_port" {
+  // Leaving this as the default, -1, will not expose a port on the container
+  default = -1
+}
 variable "sidecar_cpu" {}
 variable "sidecar_memory" {}
 
