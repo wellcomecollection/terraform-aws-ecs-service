@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.7.0 - 2020-04-07
+
+task_definition/container_with_sidecar:
+
+    - Add optional healthcheck for app and allow sidecar to depend on it
+
 ## v1.6.0 - 2020-04-07
 
 task_definition/container_with_sidecar:
