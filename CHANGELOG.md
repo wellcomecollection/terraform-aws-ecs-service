@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.6.0 - 2020-04-07
+
+task_definition/container_with_sidecar:
+
+- Make app container name configurable
+- Make container port mappings for both containers optional
+
 ## v1.5.2 - 2020-03-23
 
 task_definition/container_with_sidecar:
