@@ -11,16 +11,11 @@ data "template_file" "container_definition" {
     app_log_group_name = aws_cloudwatch_log_group.app_log_group.name
 
     app_container_image = var.app_container_image
-    app_container_name  = "app"
+    app_container_name  = var.app_container_name
 
+    expose_app_port = var.app_container_port != -1
     app_port_mappings = jsonencode([
-      {
-        "containerPort" = var.app_container_port,
-
-        # TODO: I think we can safely drop both these arguments.
-        "hostPort" = var.app_container_port,
-        "protocol" = "tcp"
-      }
+      { containerPort = var.app_container_port }
     ])
 
     app_environment_vars        = module.app_env_vars.env_vars_string
@@ -37,14 +32,9 @@ data "template_file" "container_definition" {
     sidecar_container_image = var.sidecar_container_image
     sidecar_container_name  = var.sidecar_container_name
 
+    expose_sidecar_port = var.sidecar_container_port != -1
     sidecar_port_mappings = jsonencode([
-      {
-        "containerPort" = var.sidecar_container_port,
-
-        # TODO: I think we can safely drop both these arguments.
-        "hostPort" = var.sidecar_container_port,
-        "protocol" = "tcp"
-      }
+      { containerPort = var.sidecar_container_port }
     ])
 
     sidecar_environment_vars = module.sidecar_env_vars.env_vars_string
