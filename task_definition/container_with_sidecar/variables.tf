@@ -4,7 +4,7 @@ variable "cpu" {}
 variable "memory" {}
 
 variable "use_awslogs" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -37,6 +37,11 @@ variable "secret_app_env_vars" {
   default = {}
 }
 
+variable "app_healthcheck_json" {
+  type    = string
+  default = ""
+}
+
 # Sidecar
 
 variable "sidecar_container_image" {}
@@ -64,6 +69,11 @@ variable "sidecar_env_vars" {
 variable "secret_sidecar_env_vars" {
   type    = map(string)
   default = {}
+}
+
+variable "sidecar_depends_on_app_condition" {
+  type    = string
+  default = ""
 }
 
 variable "ebs_volume_name" {

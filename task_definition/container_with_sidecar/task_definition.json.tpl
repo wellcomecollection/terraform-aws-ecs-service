@@ -20,6 +20,14 @@
         }
     },
     %{ endif }
+    %{ if sidecar_depends_on_app_condition != "" }
+    "dependsOn": [
+        {
+            "containerName": "${app_container_name}",
+            "condition": "${sidecar_depends_on_app_condition}"
+        }
+    ],
+    %{ endif }
     "user": "${sidecar_user}",
     "mountPoints": ${sidecar_mount_points}
   },
@@ -43,6 +51,9 @@
             "awslogs-stream-prefix": "${log_group_prefix}"
         }
     },
+    %{ endif }
+    %{ if app_healthcheck != "" }
+    "healthCheck": ${app_healthcheck},
     %{ endif }
     "user": "${app_user}",
     "mountPoints": ${app_mount_points}
