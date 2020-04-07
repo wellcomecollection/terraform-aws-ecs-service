@@ -1,7 +1,5 @@
-data "template_file" "container_definition" {
-  template = "${file("${path.module}/task_definition.json.tpl")}"
-
-  vars = {
+locals {
+  container_definition_json = templatefile("${path.module}/task_definition.json.tpl", {
     use_aws_logs = var.use_awslogs
 
     log_group_region = var.aws_region
@@ -26,6 +24,8 @@ data "template_file" "container_definition" {
 
     app_mount_points = jsonencode(var.app_mount_points)
 
+    app_healthcheck = var.app_healthcheck_json
+
     # Sidecar vars
     sidecar_log_group_name = aws_cloudwatch_log_group.sidecar_log_group.name
 
@@ -46,9 +46,11 @@ data "template_file" "container_definition" {
 
     sidecar_mount_points = jsonencode(var.sidecar_mount_points)
 
+    sidecar_depends_on_app_condition = var.sidecar_depends_on_app_condition
+
     app_user     = var.app_user
     sidecar_user = var.sidecar_user
-  }
+  })
 }
 
 # App
