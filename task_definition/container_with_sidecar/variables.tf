@@ -1,4 +1,5 @@
 variable "task_name" {}
+variable "sidecar_name" {}
 
 variable "cpu" {}
 variable "memory" {}

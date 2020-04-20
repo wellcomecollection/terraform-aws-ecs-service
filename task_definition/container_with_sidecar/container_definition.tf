@@ -1,7 +1,7 @@
-locals {
-  container_definition_json = templatefile("${path.module}/task_definition.json.tpl", {
-    use_aws_logs = var.use_awslogs
+data "template_file" "container_definition" {
+  template = file("${path.module}/task_definition.json.tpl")
 
+  vars = {
     log_group_region = var.aws_region
     log_group_prefix = "ecs"
 
@@ -50,14 +50,20 @@ locals {
 
     app_user     = var.app_user
     sidecar_user = var.sidecar_user
-  })
+
+    # Firelens
+
+    secret_esuser_arn = "arn:aws:secretsmanager:eu-west-1:760097843905:secret:shared/logging/es_user-NzgYRK"
+    secret_espass_arn = "arn:aws:secretsmanager:eu-west-1:760097843905:secret:shared/logging/es_pass-Wrmt3C"
+    secret_eshost_arn = "arn:aws:secretsmanager:eu-west-1:760097843905:secret:shared/logging/es_host-wFZkP1"
+    secret_esport_arn = "arn:aws:secretsmanager:eu-west-1:760097843905:secret:shared/logging/es_port-KAwnVi"
+  }
 }
 
 # App
 
 resource "aws_cloudwatch_log_group" "app_log_group" {
-  name = "ecs/${var.task_name}"
-
+  name = var.task_name
   retention_in_days = 7
 }
 
@@ -78,7 +84,7 @@ module "app_secret_env_vars" {
 # Sidecar
 
 resource "aws_cloudwatch_log_group" "sidecar_log_group" {
-  name = "ecs/sidecar_${var.task_name}"
+  name = "${var.task_name}/${var.sidecar_name}"
 
   retention_in_days = 7
 }
