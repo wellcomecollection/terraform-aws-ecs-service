@@ -53,6 +53,10 @@ data "template_file" "container_definition" {
 
     # Firelens
 
+    # TODO: Fail safe?
+
+    # Compose firelens stuff with normal 2 container stuff somehow?
+
     secret_esuser_arn = "arn:aws:secretsmanager:eu-west-1:760097843905:secret:shared/logging/es_user-NzgYRK"
     secret_espass_arn = "arn:aws:secretsmanager:eu-west-1:760097843905:secret:shared/logging/es_pass-Wrmt3C"
     secret_eshost_arn = "arn:aws:secretsmanager:eu-west-1:760097843905:secret:shared/logging/es_host-wFZkP1"
