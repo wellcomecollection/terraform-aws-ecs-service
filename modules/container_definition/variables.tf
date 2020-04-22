@@ -5,7 +5,7 @@ variable "port_mappings" {
     protocol      = string
   }))
 
-  default = null
+  default = []
 }
 
 variable "log_configuration" {
@@ -86,8 +86,30 @@ variable "essential" {
 
 variable "cpu" {
   type = number
+  default = null
 }
 
 variable "memory" {
   type = number
+  default = null
+}
+
+variable "memory_reservation" {
+  type = number
+  default = null
+}
+
+variable "image" {
+  default = "busybox"
+  type = string
+}
+
+variable "command" {
+  default = null
+  type = list(string)
+}
+
+variable "tags" {
+  default = {}
+  type = map(string)
 }

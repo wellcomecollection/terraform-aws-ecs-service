@@ -1,14 +1,12 @@
-locals {
-  service_name = var.service_name
-}
-
 module "iam_role" {
   source = "./iam_role"
 
-  service_name = local.service_name
+  service_name = var.service_name
 }
 
 resource "aws_service_discovery_service" "service_discovery" {
+  for_each = var.service_discovery_namespace_id == null ? {} : {single="a"}
+
   name = var.service_name
 
   health_check_custom_config {
@@ -16,7 +14,7 @@ resource "aws_service_discovery_service" "service_discovery" {
   }
 
   dns_config {
-    namespace_id = var.namespace_id
+    namespace_id = var.service_discovery_namespace_id
 
     dns_records {
       ttl  = 5

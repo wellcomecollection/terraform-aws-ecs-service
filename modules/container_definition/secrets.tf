@@ -7,7 +7,7 @@ locals {
   for key in local.sorted_secrets_keys :
   {
     name = key
-    valueFrom = "${local.ssm_prefix}${lookup(var.environment, key)}"
+    valueFrom = "${local.ssm_prefix}${lookup(var.secrets, key)}"
   }
   ]
 
