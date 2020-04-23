@@ -18,6 +18,9 @@ resource "aws_ecs_task_definition" "task" {
   cpu    = var.cpu
   memory = var.memory
 
+  # Unused here, but must be set to prevent churn
+  tags = {}
+
   # This is a slightly obtuse way to make these two blocks conditional.
   # They should only be created if this task definition is using EBS volume
   # mounts; otherwise they should be ignored.

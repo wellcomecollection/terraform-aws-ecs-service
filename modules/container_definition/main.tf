@@ -1,4 +1,6 @@
 locals {
+  filtered_log_configuration    = { for k,v in var.log_configuration : k => v if v!= null }
+
   container_definition = {
     essential = var.essential
     name = var.name
@@ -20,7 +22,11 @@ locals {
     dependsOn = var.depends
     tags = var.tags
 
-    logConfiguration = var.log_configuration
+    volumesFrom = var.volumes_from
+
+    logConfiguration = local.filtered_log_configuration
     firelensConfiguration = var.firelens_configuration
   }
+
+  filtered_container_definition = { for k,v in local.container_definition : k => v if v!= null }
 }

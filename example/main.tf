@@ -1,71 +1,57 @@
-module "logging_secrets_permissions" {
-  source = "../modules/secrets"
+# Create container definitions
 
-  execution_role_name = module.task_definition.task_execution_role_name
-
-  secrets = local.shared_secrets_logging
-}
-
-# TODO:
-# - Modularise log_router_container
-# - ensure new containre defs don't cause churn
-
-module "log_router_container" {
+module "app_one_container_definition" {
   source = "../modules/container_definition"
-  image  = "wellcome/fluentbit:132"
+  name = "app_one"
 
-  name = "log_router"
-
-  memory_reservation = 50
-
-  firelens_configuration = {
-    type = "fluentbit"
-    options = {
-      "config-file-type" = "file"
-      "config-file-value" = "/extra.conf"
-    }
-  }
-
-  environment = {
-    SERVICE_NAME = local.namespace
-  }
-
-  secrets = local.shared_secrets_logging
-
-  log_configuration = {
-    logDriver = "awslogs"
-
-    options = {
-      "awslogs-group" = local.namespace,
-      "awslogs-region" = "eu-west-1",
-      "awslogs-create-group" = "true",
-      "awslogs-stream-prefix" = "log_router"
-    }
-
-    secretOptions = null
-  }
-}
-
-module "app_container_definition" {
-  source = "../modules/container_definition"
-  name = "app"
+  image = "busybox"
 
   command = [
     "/bin/sh",
     "-c",
-    "while true; do echo \"zzz\" && sleep 5s; done"
+    "while true; do echo \"$CONTENT\" && sleep 5s; done"
   ]
 
-  log_configuration = {
-    logDriver = "awsfirelens"
-    options = {
-      Name = "stdout"
-      Match = "*",
-    }
-
-    secretOptions = null
+  environment = {
+    CONTENT = "one"
   }
+
+  log_configuration = module.log_router_container.container_log_configuration
 }
+
+module "app_two_container_definition" {
+  source = "../modules/container_definition"
+  name = "app_two"
+
+  image = "busybox"
+
+  command = [
+    "/bin/sh",
+    "-c",
+    "while true; do echo \"$CONTENT\" && sleep 5s; done"
+  ]
+
+  environment = {
+    CONTENT = "two"
+  }
+
+  log_configuration = module.log_router_container.container_log_configuration
+}
+
+# We will use firelens logging (Wellcome specific setup)
+
+module "log_router_container" {
+  source    = "../modules/firelens"
+  namespace = local.namespace
+}
+
+module "log_router_permissions" {
+  source              = "../modules/secrets"
+  secrets             = local.shared_secrets_logging
+  execution_role_name = module.task_definition.task_execution_role_name
+}
+
+# Create task definition
 
 module "task_definition" {
   source = "../modules/task_definition"
@@ -75,12 +61,15 @@ module "task_definition" {
 
   container_definitions = [
     module.log_router_container.container_definition,
-    module.app_container_definition.container_definition
+    module.app_one_container_definition.container_definition,
+    module.app_two_container_definition.container_definition
   ]
 
   launch_types = ["FARGATE"]
   task_name = local.namespace
 }
+
+# Create service
 
 module "service" {
   source = "../modules/service"
@@ -99,6 +88,7 @@ module "service" {
 resource "aws_security_group" "allow_full_egress" {
   name        = "full_egress"
   description = "Allow outbound traffic"
+
   vpc_id = local.vpc_id
 
   egress {

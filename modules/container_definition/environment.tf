@@ -10,5 +10,5 @@ locals {
   }
   ]
 
-  final_environment = length(local.sorted_environment_keys) > 0 ? local.sorted_environment : null
+  final_environment = length(local.sorted_environment_keys) > 0 ? local.sorted_environment : []
 }

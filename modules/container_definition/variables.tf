@@ -36,7 +36,7 @@ variable "mount_points" {
     sourceVolume  = string
   }))
 
-  default = null
+  default = []
 }
 
 variable "healthcheck" {
@@ -62,7 +62,7 @@ variable "depends" {
 
 variable "user" {
   type    = string
-  default = null
+  default = 0
 }
 
 variable "secrets" {
@@ -86,7 +86,16 @@ variable "essential" {
 
 variable "cpu" {
   type = number
-  default = null
+  default = 0
+}
+
+variable "volumes_from" {
+  type = list(object({
+    sourceContainer = string
+    readOnly        = bool
+  }))
+
+  default = []
 }
 
 variable "memory" {
@@ -100,7 +109,6 @@ variable "memory_reservation" {
 }
 
 variable "image" {
-  default = "busybox"
   type = string
 }
 
@@ -110,6 +118,6 @@ variable "command" {
 }
 
 variable "tags" {
-  default = {}
+  default = null
   type = map(string)
 }
