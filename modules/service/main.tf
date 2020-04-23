@@ -5,7 +5,7 @@ module "iam_role" {
 }
 
 resource "aws_service_discovery_service" "service_discovery" {
-  for_each = var.service_discovery_namespace_id == null ? {} : {single="a"}
+  for_each = var.service_discovery_namespace_id == null ? {} : { single = "a" }
 
   name = var.service_name
 

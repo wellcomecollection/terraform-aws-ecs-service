@@ -13,7 +13,7 @@ locals {
   container_log_configuration = {
     logDriver = "awsfirelens"
     options = {
-      Name = "null"
+      Name  = "null"
       Match = "*",
     }
 

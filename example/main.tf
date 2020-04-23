@@ -2,7 +2,7 @@
 
 module "app_one_container_definition" {
   source = "../modules/container_definition"
-  name = "app_one"
+  name   = "app_one"
 
   image = "busybox"
 
@@ -21,7 +21,7 @@ module "app_one_container_definition" {
 
 module "app_two_container_definition" {
   source = "../modules/container_definition"
-  name = "app_two"
+  name   = "app_two"
 
   image = "busybox"
 
@@ -56,7 +56,7 @@ module "log_router_permissions" {
 module "task_definition" {
   source = "../modules/task_definition"
 
-  cpu = 256
+  cpu    = 256
   memory = 512
 
   container_definitions = [
@@ -66,7 +66,7 @@ module "task_definition" {
   ]
 
   launch_types = ["FARGATE"]
-  task_name = local.namespace
+  task_name    = local.namespace
 }
 
 # Create service
@@ -81,7 +81,7 @@ module "service" {
 
   task_definition_arn = module.task_definition.arn
 
-  subnets = local.private_subnets
+  subnets            = local.private_subnets
   security_group_ids = [aws_security_group.allow_full_egress.id]
 }
 

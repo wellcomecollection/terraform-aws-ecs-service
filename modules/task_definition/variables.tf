@@ -14,31 +14,31 @@ variable "network_mode" {
 }
 
 variable "cpu" {
-  type = number
+  type    = number
   default = null
 }
 
 variable "memory" {
-  type = number
+  type    = number
   default = null
 }
 
 variable "ebs_volume_name" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "ebs_host_path" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "efs_volume_name" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "efs_host_path" {
-  type = string
+  type    = string
   default = ""
 }

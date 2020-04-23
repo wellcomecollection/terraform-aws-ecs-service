@@ -3,7 +3,7 @@ provider "aws" {
     role_arn = "arn:aws:iam::760097843905:role/platform-developer"
   }
 
-  region  = "eu-west-1"
+  region = "eu-west-1"
 }
 
 terraform {

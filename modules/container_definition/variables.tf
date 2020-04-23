@@ -48,7 +48,7 @@ variable "healthcheck" {
     startPeriod = number
   })
 
-  default     = null
+  default = null
 }
 
 variable "depends" {
@@ -66,7 +66,7 @@ variable "user" {
 }
 
 variable "secrets" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }
 
@@ -80,12 +80,12 @@ variable "name" {
 }
 
 variable "essential" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "cpu" {
-  type = number
+  type    = number
   default = 0
 }
 
@@ -99,12 +99,12 @@ variable "volumes_from" {
 }
 
 variable "memory" {
-  type = number
+  type    = number
   default = null
 }
 
 variable "memory_reservation" {
-  type = number
+  type    = number
   default = null
 }
 
@@ -114,10 +114,10 @@ variable "image" {
 
 variable "command" {
   default = null
-  type = list(string)
+  type    = list(string)
 }
 
 variable "tags" {
   default = null
-  type = map(string)
+  type    = map(string)
 }

@@ -9,7 +9,7 @@ module "log_router_container" {
   firelens_configuration = {
     type = "fluentbit"
     options = {
-      "config-file-type" = "file"
+      "config-file-type"  = "file"
       "config-file-value" = "/extra.conf"
     }
   }
@@ -24,9 +24,9 @@ module "log_router_container" {
     logDriver = "awslogs"
 
     options = {
-      "awslogs-group" = var.namespace,
-      "awslogs-region" = "eu-west-1",
-      "awslogs-create-group" = "true",
+      "awslogs-group"         = var.namespace,
+      "awslogs-region"        = "eu-west-1",
+      "awslogs-create-group"  = "true",
       "awslogs-stream-prefix" = "log_router"
     }
 
