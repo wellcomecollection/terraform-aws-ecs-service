@@ -3,6 +3,9 @@ variable "task_name" {
 }
 
 variable "container_definitions" {}
+// This is intentionally untyped.
+// If typed you can't have optional nulls which results in some complexity.
+// See https://github.com/hashicorp/terraform/issues/19898
 
 variable "launch_types" {
   type = list(string)

@@ -1,6 +1,6 @@
 module "log_router_container" {
   source = "../../modules/container_definition"
-  image  = "wellcome/fluentbit:edge"
+  image  = "wellcome/fluentbit:134"
 
   name = "log_router"
 
