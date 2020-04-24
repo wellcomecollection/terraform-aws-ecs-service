@@ -1,22 +1,25 @@
 module "task_role" {
-  source = "../modules/iam_role"
+  source = "./iam_role"
 
   task_name = var.task_name
 }
 
 resource "aws_ecs_task_definition" "task" {
   family                = var.task_name
-  container_definitions = data.template_file.container_definition.rendered
+  container_definitions = jsonencode(var.container_definitions)
 
   task_role_arn      = module.task_role.task_role_arn
   execution_role_arn = module.task_role.task_execution_role_arn
 
-  network_mode = "awsvpc"
+  network_mode = var.network_mode
 
-  requires_compatibilities = [var.launch_type]
+  requires_compatibilities = var.launch_types
 
   cpu    = var.cpu
   memory = var.memory
+
+  # Unused here, but must be set to prevent churn
+  tags = {}
 
   # This is a slightly obtuse way to make these two blocks conditional.
   # They should only be created if this task definition is using EBS volume

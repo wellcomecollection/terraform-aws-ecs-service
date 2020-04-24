@@ -1,75 +1,109 @@
-module "task_definition_single_container_awslogs" {
-  source = "../task_definition/single_container"
+# Create container definitions
 
-  container_image = "tutum/hello-world"
-  mount_points    = []
+module "app_one_container_definition" {
+  source = "../modules/container_definition"
+  name   = "app_one"
 
-  aws_region = "eu-west-1"
-  task_name  = "single_container_awslogs"
+  image = "busybox"
 
-  use_awslogs = true
+  command = [
+    "/bin/sh",
+    "-c",
+    "while true; do echo \"$CONTENT\" && sleep 5s; done"
+  ]
+
+  environment = {
+    CONTENT = "one"
+  }
+
+  log_configuration = module.log_router_container.container_log_configuration
 }
 
-module "task_definition_single_container_nologs" {
-  source = "../task_definition/single_container"
+module "app_two_container_definition" {
+  source = "../modules/container_definition"
+  name   = "app_two"
 
-  container_image = "tutum/hello-world"
-  mount_points    = []
+  image = "busybox"
 
-  aws_region = "eu-west-1"
-  task_name  = "single_container_nologs"
+  command = [
+    "/bin/sh",
+    "-c",
+    "while true; do echo \"$CONTENT\" && sleep 5s; done"
+  ]
 
-  use_awslogs = false
+  environment = {
+    CONTENT = "two"
+  }
+
+  log_configuration = module.log_router_container.container_log_configuration
 }
 
-module "task_definition_container_with_sidecar_awslogs" {
-  source = "../task_definition/container_with_sidecar"
+# We will use firelens logging (Wellcome specific setup)
 
-  aws_region = "eu-west-1"
-  task_name  = "container_with_sidecar_awslogs"
-
-  app_container_image = "tutum/hello-world"
-
-  app_container_port = 80
-  app_cpu = "256"
-  app_memory = "512"
-  app_mount_points = []
-
-  sidecar_container_image = "tutum/hello-world"
-
-  sidecar_container_port = 8080
-  sidecar_cpu = "256"
-  sidecar_memory = "512"
-  sidecar_mount_points = []
-
-  cpu = "512"
-  memory = "1024"
-
-  use_awslogs = true
+module "log_router_container" {
+  source    = "../modules/firelens"
+  namespace = local.namespace
 }
 
-module "task_definition_container_with_sidecar_nologs" {
-  source = "../task_definition/container_with_sidecar"
+module "log_router_permissions" {
+  source              = "../modules/secrets"
+  secrets             = local.shared_secrets_logging
+  execution_role_name = module.task_definition.task_execution_role_name
+}
 
-  aws_region = "eu-west-1"
-  task_name  = "container_with_sidecar_nologs"
+# Create task definition
 
-  app_container_image = "tutum/hello-world"
+module "task_definition" {
+  source = "../modules/task_definition"
 
-  app_container_port = 80
-  app_cpu = "256"
-  app_memory = "512"
-  app_mount_points = []
+  cpu    = 256
+  memory = 512
 
-  sidecar_container_image = "tutum/hello-world"
+  container_definitions = [
+    module.log_router_container.container_definition,
+    module.app_one_container_definition.container_definition,
+    module.app_two_container_definition.container_definition
+  ]
 
-  sidecar_container_port = 8080
-  sidecar_cpu = "256"
-  sidecar_memory = "512"
-  sidecar_mount_points = []
+  launch_types = ["FARGATE"]
+  task_name    = local.namespace
+}
 
-  cpu = "512"
-  memory = "1024"
+# Create service
 
-  use_awslogs = false
+module "service" {
+  source = "../modules/service"
+
+  cluster_arn  = aws_ecs_cluster.cluster.arn
+  service_name = local.namespace
+
+  service_discovery_namespace_id = aws_service_discovery_private_dns_namespace.namespace.id
+
+  task_definition_arn = module.task_definition.arn
+
+  subnets            = local.private_subnets
+  security_group_ids = [aws_security_group.allow_full_egress.id]
+}
+
+resource "aws_security_group" "allow_full_egress" {
+  name        = "full_egress"
+  description = "Allow outbound traffic"
+
+  vpc_id = local.vpc_id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_service_discovery_private_dns_namespace" "namespace" {
+  name = local.namespace
+  vpc  = local.vpc_id
+}
+
+resource "aws_ecs_cluster" "cluster" {
+  name = local.namespace
 }

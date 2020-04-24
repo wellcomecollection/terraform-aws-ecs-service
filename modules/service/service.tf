@@ -1,5 +1,5 @@
 resource "aws_ecs_service" "service" {
-  name            = local.service_name
+  name            = var.service_name
   cluster         = var.cluster_arn
   task_definition = var.task_definition_arn
   desired_count   = var.desired_task_count
@@ -13,8 +13,12 @@ resource "aws_ecs_service" "service" {
     assign_public_ip = false
   }
 
-  service_registries {
-    registry_arn = aws_service_discovery_service.service_discovery.arn
+  dynamic "service_registries" {
+    for_each = var.service_discovery_namespace_id == null ? [] : [{}]
+
+    content {
+      registry_arn = aws_service_discovery_service.service_discovery["single"].arn
+    }
   }
 
   # We can't specify both a launch type and a capacity provider strategy.
