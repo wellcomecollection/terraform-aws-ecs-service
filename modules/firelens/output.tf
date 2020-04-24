@@ -5,3 +5,7 @@ output "container_definition" {
 output "container_log_configuration" {
   value = local.container_log_configuration
 }
+
+output "shared_secrets_logging" {
+  value = local.shared_secrets_logging
+}

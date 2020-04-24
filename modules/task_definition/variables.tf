@@ -9,6 +9,7 @@ variable "container_definitions" {}
 
 variable "launch_types" {
   type = list(string)
+  default = ["FARGATE"]
 }
 
 variable "network_mode" {
