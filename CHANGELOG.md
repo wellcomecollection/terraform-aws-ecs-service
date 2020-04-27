@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.2.0 - 2020-04-27
+
+Removes a data block referring to an IAM role in modules/secrets as this causes dependency issues in consumers.
+
+Also renames the variable task_execution_role_name to role_name in modules/secrets to be clearer. Consumers will need to update their references accordingly.
+
 ## v2.1.0 - 2020-04-24
 
 Provide `shared_secrets_logging` from modules/firelens as we have it here, so consumer does not need to look it up with remote data source (and provide single source of truth)
