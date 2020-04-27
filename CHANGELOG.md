@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.2.1 - 2020-04-27
+
+Provide a pre-packed debug config to feed app container logs to cloudwatch in modules/firelens (output is debug_container_log_configuration).
+
 ## v2.2.0 - 2020-04-27
 
 Removes a data block referring to an IAM role in modules/secrets as this causes dependency issues in consumers.
