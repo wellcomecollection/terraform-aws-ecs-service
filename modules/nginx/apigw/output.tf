@@ -1,11 +1,11 @@
 output "container_definition" {
-  value = module.log_router_container.container_definition
+  value = module.nginx_container.container_definition
 }
 
-output "container_log_configuration" {
-  value = local.container_log_configuration
+output "container_name" {
+  value = local.container_name
 }
 
-output "shared_secrets_logging" {
-  value = local.shared_secrets_logging
+output "container_port" {
+  value = local.container_port
 }

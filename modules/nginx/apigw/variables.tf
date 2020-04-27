@@ -2,6 +2,11 @@ variable "forward_port" {
   type = number
 }
 
+variable "memory_reservation" {
+  type = number
+  default = 50
+}
+
 variable "log_configuration" {
   type = object({
     logDriver = string
