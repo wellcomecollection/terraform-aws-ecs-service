@@ -11,6 +11,12 @@ module "nginx_container" {
     APP_PORT = var.forward_port
   }
 
+  port_mappings = [{
+    containerPort = 9000,
+    hostPort = 9000,
+    protocol = "tcp"
+  }]
+
   log_configuration = var.log_configuration
 }
 
