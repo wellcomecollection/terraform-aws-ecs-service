@@ -20,6 +20,19 @@ locals {
     secretOptions = null
   }
 
+  // This will feed an app container logs to stdout
+  // Consequently those logs will appear in cloudwatch
+  // alongside the log_router logs
+  debug_container_log_configuration = {
+    logDriver = "awsfirelens"
+    options = {
+      Name  = "stdout"
+      Match = "*",
+    }
+
+    secretOptions = null
+  }
+
   // These secrets are assigned on a per account basis:
   // https://github.com/wellcomecollection/platform-infrastructure/blob/master/shared/secrets.tf
   // The secrets are copied between accounts to the same identifiers.
