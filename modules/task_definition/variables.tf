@@ -8,7 +8,7 @@ variable "container_definitions" {}
 // See https://github.com/hashicorp/terraform/issues/19898
 
 variable "launch_types" {
-  type = list(string)
+  type    = list(string)
   default = ["FARGATE"]
 }
 
