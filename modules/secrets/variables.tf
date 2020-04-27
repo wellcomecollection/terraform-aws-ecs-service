@@ -1,4 +1,4 @@
-variable "execution_role_name" {
+variable "role_name" {
   type = string
 }
 
