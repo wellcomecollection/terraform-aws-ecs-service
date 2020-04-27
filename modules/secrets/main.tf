@@ -3,6 +3,6 @@ resource "aws_iam_role_policy" "allow_read_secrets" {
   # empty and we can skip creating the policy.
   count = length(var.secrets) > 0 ? 1 : 0
 
-  role   = data.aws_iam_role.execution_role.name
+  role   = var.role_name
   policy = data.aws_iam_policy_document.read_secrets.json
 }
