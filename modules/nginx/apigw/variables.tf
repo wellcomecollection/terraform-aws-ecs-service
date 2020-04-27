@@ -3,7 +3,7 @@ variable "forward_port" {
 }
 
 variable "memory_reservation" {
-  type = number
+  type    = number
   default = 50
 }
 

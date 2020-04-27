@@ -13,8 +13,8 @@ module "nginx_container" {
 
   port_mappings = [{
     containerPort = 9000,
-    hostPort = 9000,
-    protocol = "tcp"
+    hostPort      = 9000,
+    protocol      = "tcp"
   }]
 
   log_configuration = var.log_configuration
