@@ -1,8 +1,8 @@
 module "nginx_container" {
   source = "../../../modules/container_definition"
 
-  image  = local.image
-  name   = local.container_name
+  image = local.image
+  name  = local.container_name
 
   memory_reservation = var.memory_reservation
 

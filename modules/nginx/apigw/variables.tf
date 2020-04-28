@@ -21,6 +21,6 @@ variable "log_configuration" {
 }
 
 variable "container_tag" {
-  type = string
+  type    = string
   default = "f1188c2a7df01663dd96c99b26666085a4192167"
 }
