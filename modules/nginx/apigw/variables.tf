@@ -19,3 +19,8 @@ variable "log_configuration" {
 
   default = null
 }
+
+variable "container_tag" {
+  type = string
+  default = "f1188c2a7df01663dd96c99b26666085a4192167"
+}
