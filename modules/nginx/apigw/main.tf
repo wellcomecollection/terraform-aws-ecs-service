@@ -1,8 +1,8 @@
 module "nginx_container" {
   source = "../../../modules/container_definition"
-  image  = "760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/nginx_apigw:f1188c2a7df01663dd96c99b26666085a4192167"
 
-  name = local.container_name
+  image  = local.stable_nginx_apigw_image
+  name   = local.container_name
 
   memory_reservation = var.memory_reservation
 
