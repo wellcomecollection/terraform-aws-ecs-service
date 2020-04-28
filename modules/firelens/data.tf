@@ -33,6 +33,10 @@ locals {
     secretOptions = null
   }
 
+  // See https://github.com/wellcomecollection/platform-infrastructure/tree/master/containers
+  ecr_repo = "760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/fluentbit"
+  image    = "${local.ecr_repo}:${var.container_tag}"
+
   // These secrets are assigned on a per account basis:
   // https://github.com/wellcomecollection/platform-infrastructure/blob/master/shared/secrets.tf
   // The secrets are copied between accounts to the same identifiers.

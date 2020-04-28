@@ -1,6 +1,6 @@
 module "log_router_container" {
   source = "../../modules/container_definition"
-  image  = "wellcome/fluentbit:134"
+  image  = local.image
 
   name = "log_router"
 
@@ -33,3 +33,4 @@ module "log_router_container" {
     secretOptions = null
   }
 }
+
