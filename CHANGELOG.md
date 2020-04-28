@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v2.3.0 - 2020-04-28
+
+Adds default nginx image template to modules/nginx/apigw
+
+Example usage: 
+
+```
+module "nginx_container" {
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/nginx/apigw"
+
+  forward_port      = var.container_port
+  log_configuration = module.log_router_container.container_log_configuration
+}
+```
+
 ## v2.2.1 - 2020-04-27
 
 Provide a pre-packed debug config to feed app container logs to cloudwatch in modules/firelens (output is debug_container_log_configuration).
