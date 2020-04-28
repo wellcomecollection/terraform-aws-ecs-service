@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.4.0 - 2020-04-28
+
+Updates modules/firelens & modules/nginx/apigw.
+- Use ECR image for fluentbit (firelens) container
+- Paramaterise image tag so clients can upgrade selectively
+
 ## v2.3.0 - 2020-04-28
 
 Adds default nginx image template to modules/nginx/apigw
