@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.4.1 - 2020-04-29
+
+Bump the default firelens container to one that uses `_doc` as the Elasticsearch document type.
+
+See <https://github.com/wellcomecollection/platform-infrastructure/pull/17>
+
 ## v2.4.0 - 2020-04-28
 
 Updates modules/firelens & modules/nginx/apigw.
