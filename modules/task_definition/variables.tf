@@ -46,3 +46,11 @@ variable "efs_host_path" {
   type    = string
   default = ""
 }
+
+variable "extra_volumes" {
+  type = list(object({
+    name      = string
+    host_path = string
+  }))
+  default = []
+}
