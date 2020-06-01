@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.6.0 - 2020-06-01
+
+- Add `system_controls` property to container definitions to allow setting kernel parameters in tasks
+
 ## v2.5.0 - 2020-06-01
 
 - Add an "extra_volumes" field for specifying arbitrary volumes on the task definition.
