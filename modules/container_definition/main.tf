@@ -26,6 +26,8 @@ locals {
 
     logConfiguration      = local.filtered_log_configuration
     firelensConfiguration = var.firelens_configuration
+
+    systemControls = var.system_controls
   }
 
   filtered_container_definition = { for k, v in local.container_definition : k => v if v != null }

@@ -121,3 +121,11 @@ variable "tags" {
   default = null
   type    = map(string)
 }
+
+variable "system_controls" {
+  type = list(object({
+    namespace = string
+    value     = string
+  }))
+  default = []
+}
