@@ -67,4 +67,13 @@ resource "aws_ecs_task_definition" "task" {
       expression = "attribute:efs.volume exists"
     }
   }
+
+  dynamic "volume" {
+    for_each = var.extra_volumes
+
+    content {
+      name      = volume.value["name"]
+      host_path = volume.value["host_path"]
+    }
+  }
 }
