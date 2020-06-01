@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.5.0 - 2020-06-01
+
+- Add an "extra_volumes" field for specifying arbitrary volumes on the task definition.
+  This is useful if you want non-persistent volumes shared between containers.
+
 ## v2.4.1 - 2020-04-29
 
 Bump the default firelens container to one that uses `_doc` as the Elasticsearch document type.
