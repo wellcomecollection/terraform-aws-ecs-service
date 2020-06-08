@@ -6,6 +6,10 @@ module "log_router_container" {
 
   memory_reservation = 50
 
+  // This configuration file can be found in the source container:
+  // See https://github.com/wellcomecollection/platform-infrastructure/tree/master/containers
+  // See local.image to see how the container tag is constructed.
+  // Default values are loaded from var.container_tag in variables.tf
   firelens_configuration = {
     type = "fluentbit"
     options = {
