@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.6.1 - 2020-06-23
+
+Adds an nginx module for the experience apps
+
 ## v2.6.0 - 2020-06-01
 
 - Add `system_controls` property to container definitions to allow setting kernel parameters in tasks
