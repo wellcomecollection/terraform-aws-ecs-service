@@ -1,6 +1,6 @@
 locals {
   container_name = "nginx"
-  container_port = 9000
+  container_port = 80
 
 
   // See https://github.com/wellcomecollection/platform-infrastructure/tree/master/containers
