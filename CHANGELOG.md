@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.6.2 - 2020-06-25
+
+Fix for container port in frontend module config - the nginx config dictates port 80 must be exposed as the container port
+
 ## v2.6.1 - 2020-06-23
 
 Adds an nginx module for the experience apps
