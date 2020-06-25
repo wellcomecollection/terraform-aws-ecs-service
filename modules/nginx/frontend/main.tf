@@ -12,8 +12,8 @@ module "nginx_container" {
   }
 
   port_mappings = [{
-    containerPort = 9000,
-    hostPort      = 9000,
+    containerPort = local.container_port,
+    hostPort      = local.container_port,
     protocol      = "tcp"
   }]
 
