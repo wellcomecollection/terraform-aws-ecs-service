@@ -1,14 +1,3 @@
-data "terraform_remote_state" "infra_shared" {
-  backend = "s3"
-
-  config = {
-    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
-    bucket   = "wellcomecollection-platform-infra"
-    key      = "terraform/platform-infrastructure/shared.tfstate"
-    region   = "eu-west-1"
-  }
-}
-
 locals {
   container_log_configuration = {
     logDriver = "awsfirelens"
@@ -42,5 +31,10 @@ locals {
   // The secrets are copied between accounts to the same identifiers.
   // This results in secrets having the same SSM paths in every account,
   // although those paths refer to the secrets in that particular account.
-  shared_secrets_logging = data.terraform_remote_state.infra_shared.outputs.shared_secrets_logging
+  shared_secrets_logging = {
+    ES_USER = "shared/logging/es_user"
+    ES_PASS = "shared/logging/es_pass"
+    ES_HOST = "shared/logging/es_host"
+    ES_PORT = "shared/logging/es_port"
+  }
 }
