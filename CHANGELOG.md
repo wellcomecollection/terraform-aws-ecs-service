@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.6.3 - 2020-06-29
+
+Remove dependency on remote state for firelens module
+
 ## v2.6.2 - 2020-06-25
 
 Fix for container port in frontend module config - the nginx config dictates port 80 must be exposed as the container port
