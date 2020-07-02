@@ -46,9 +46,9 @@ module "log_router_container" {
 }
 
 module "log_router_permissions" {
-  source              = "../modules/secrets"
-  secrets             = local.shared_secrets_logging
-  execution_role_name = module.task_definition.task_execution_role_name
+  source    = "../modules/secrets"
+  secrets   = local.shared_secrets_logging
+  role_name = module.task_definition.task_execution_role_name
 }
 
 # Create task definition
@@ -65,6 +65,12 @@ module "task_definition" {
     module.app_two_container_definition.container_definition
   ]
 
+  efs_volumes = [{
+    name = "efs_fs"
+    file_system_id = aws_efs_file_system.efs_fs.id
+    root_directory = "/"
+  }]
+
   launch_types = ["FARGATE"]
   task_name    = local.namespace
 }
@@ -76,8 +82,6 @@ module "service" {
 
   cluster_arn  = aws_ecs_cluster.cluster.arn
   service_name = local.namespace
-
-  service_discovery_namespace_id = aws_service_discovery_private_dns_namespace.namespace.id
 
   task_definition_arn = module.task_definition.arn
 
@@ -99,11 +103,15 @@ resource "aws_security_group" "allow_full_egress" {
   }
 }
 
-resource "aws_service_discovery_private_dns_namespace" "namespace" {
-  name = local.namespace
-  vpc  = local.vpc_id
-}
-
 resource "aws_ecs_cluster" "cluster" {
   name = local.namespace
+}
+
+resource "aws_efs_file_system" "efs_fs" {
+  creation_token = "example_efs_fs"
+}
+
+resource "aws_efs_mount_target" "efs_fs" {
+  file_system_id = aws_efs_file_system.efs_fs.id
+  subnet_id      = local.private_subnets[0]
 }

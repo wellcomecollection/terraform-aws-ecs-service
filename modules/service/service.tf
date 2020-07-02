@@ -61,6 +61,9 @@ resource "aws_ecs_service" "service" {
     }
   }
 
+  tags = var.tags
+  propagate_tags = var.propagate_tags
+
   # The desired_count of our services can be changed externally (e.g. by autoscaling).
   # If Terraform clamps it back down, it can prematurely terminate work, and
   # we have to wait for services to scale back up.
