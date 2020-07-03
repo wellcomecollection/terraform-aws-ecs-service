@@ -1,6 +1,16 @@
 variable "service_name" {}
 variable "cluster_arn" {}
 
+variable "propagate_tags" {
+  type = string
+  default = null
+}
+
+variable "tags" {
+  type = map(string)
+  default = {}
+}
+
 variable "desired_task_count" {
   default = 1
 }

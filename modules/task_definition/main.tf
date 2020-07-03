@@ -21,59 +21,33 @@ resource "aws_ecs_task_definition" "task" {
   # Unused here, but must be set to prevent churn
   tags = {}
 
-  # This is a slightly obtuse way to make these two blocks conditional.
-  # They should only be created if this task definition is using EBS volume
-  # mounts; otherwise they should be ignored.
-  #
-  # This is a kludge around Terraform's "dynamic blocks".
-  # See https://www.terraform.io/docs/configuration/expressions.html#dynamic-blocks
-  #
-  # There's an open feature request on the Terraform repo to add syntactic
-  # sugar for this sort of conditional block.  If that ever arises, we should
-  # use that instead.  See https://github.com/hashicorp/terraform/issues/21512
   dynamic "volume" {
-    for_each = var.ebs_volume_name == "" ? [] : [{}]
-
-    content {
-      name      = var.ebs_volume_name
-      host_path = var.ebs_host_path
-    }
-  }
-
-  dynamic "placement_constraints" {
-    for_each = var.ebs_volume_name == "" ? [] : [{}]
-
-    content {
-      type       = "memberOf"
-      expression = "attribute:ebs.volume exists"
-    }
-  }
-
-  # We do the same as above for the EFS volume.
-  dynamic "volume" {
-    for_each = var.efs_volume_name == "" ? [] : [{}]
-
-    content {
-      name      = var.efs_volume_name
-      host_path = var.efs_host_path
-    }
-  }
-
-  dynamic "placement_constraints" {
-    for_each = var.efs_volume_name == "" ? [] : [{}]
-
-    content {
-      type       = "memberOf"
-      expression = "attribute:efs.volume exists"
-    }
-  }
-
-  dynamic "volume" {
-    for_each = var.extra_volumes
+    for_each = var.volumes
 
     content {
       name      = volume.value["name"]
       host_path = volume.value["host_path"]
+    }
+  }
+
+  dynamic "volume" {
+    for_each = var.efs_volumes
+
+    content {
+      name = volume.value["name"]
+      efs_volume_configuration {
+        file_system_id = volume.value["file_system_id"]
+        root_directory = volume.value["root_directory"]
+      }
+    }
+  }
+
+  dynamic "placement_constraints" {
+    for_each = var.placement_constraints
+
+    content {
+      type = placement_constraints.value["type"]
+      expression = placement_constraints.value["expression"]
     }
   }
 }

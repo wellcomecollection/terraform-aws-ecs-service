@@ -27,30 +27,27 @@ variable "memory" {
   default = null
 }
 
-variable "ebs_volume_name" {
-  type    = string
-  default = ""
-}
-
-variable "ebs_host_path" {
-  type    = string
-  default = ""
-}
-
-variable "efs_volume_name" {
-  type    = string
-  default = ""
-}
-
-variable "efs_host_path" {
-  type    = string
-  default = ""
-}
-
-variable "extra_volumes" {
+variable "volumes" {
   type = list(object({
-    name      = string
+    name = string
     host_path = string
+  }))
+  default = []
+}
+
+variable "efs_volumes" {
+  type = list(object({
+    name = string
+    file_system_id = string
+    root_directory = string
+  }))
+  default = []
+}
+
+variable "placement_constraints" {
+  type = list(object({
+    type = string
+    expression = string
   }))
   default = []
 }
