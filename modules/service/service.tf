@@ -4,6 +4,10 @@ resource "aws_ecs_service" "service" {
   task_definition = var.task_definition_arn
   desired_count   = var.desired_task_count
 
+  // 1.4.0 is Required for EFS integration
+  // Note: LATEST as of 03/07/2020 points at 1.3.0
+  platform_version = "1.4.0"
+
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
   deployment_maximum_percent         = var.deployment_maximum_percent
 
