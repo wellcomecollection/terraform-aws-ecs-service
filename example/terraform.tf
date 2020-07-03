@@ -10,6 +10,8 @@ terraform {
   backend "local" {
     path = "terraform.tfstate"
   }
+
+  required_version = ">= 0.12"
 }
 
 data "terraform_remote_state" "infra_shared" {

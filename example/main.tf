@@ -1,15 +1,36 @@
 # Create container definitions
 
-module "app_one_container_definition" {
+module "nginx_container_definition" {
   source = "../modules/container_definition"
-  name   = "app_one"
+
+  name  = "nginx"
+  image = "nginx"
+
+  port_mappings = [{
+    containerPort = local.container_Port
+    hostPort      = local.host_port
+    protocol      = "tcp"
+  }]
+
+  mount_points = [{
+    containerPath = "/usr/share/nginx/html"
+    sourceVolume  = local.efs_volume_name
+  }]
+
+  log_configuration = module.log_router_container.container_log_configuration
+}
+
+module "app_container_definition" {
+  source = "../modules/container_definition"
+  name   = "app_two"
 
   image = "busybox"
 
+  // This example works by writing to the EFS volume read by the nginx container
   command = [
     "/bin/sh",
     "-c",
-    "while true; do echo \"$CONTENT\" && sleep 5s; done"
+    "while true; do echo \"$CONTENT $(date)\" > /efs_fs/index.html && sleep 5s; done"
   ]
 
   mount_points = [{
@@ -18,26 +39,7 @@ module "app_one_container_definition" {
   }]
 
   environment = {
-    CONTENT = "one"
-  }
-
-  log_configuration = module.log_router_container.container_log_configuration
-}
-
-module "app_two_container_definition" {
-  source = "../modules/container_definition"
-  name   = "app_two"
-
-  image = "busybox"
-
-  command = [
-    "/bin/sh",
-    "-c",
-    "while true; do echo \"$CONTENT\" && sleep 5s; done"
-  ]
-
-  environment = {
-    CONTENT = "two"
+    CONTENT = "Hello @ "
   }
 
   log_configuration = module.log_router_container.container_log_configuration
@@ -66,8 +68,8 @@ module "task_definition" {
 
   container_definitions = [
     module.log_router_container.container_definition,
-    module.app_one_container_definition.container_definition,
-    module.app_two_container_definition.container_definition
+    module.nginx_container_definition.container_definition,
+    module.app_container_definition.container_definition
   ]
 
   efs_volumes = [{
@@ -89,34 +91,19 @@ module "service" {
   service_name = local.namespace
 
   task_definition_arn = module.task_definition.arn
+  
+  target_group_arn = aws_alb_target_group.service.arn
 
+  container_port   = local.container_Port
+  container_name   = module.nginx_container_definition.name
+  
   subnets            = local.private_subnets
-  security_group_ids = [aws_security_group.allow_full_egress.id]
-}
-
-resource "aws_security_group" "allow_full_egress" {
-  name        = "full_egress"
-  description = "Allow outbound traffic"
-
-  vpc_id = local.vpc_id
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  security_group_ids = [
+    aws_security_group.allow_full_egress.id,
+    aws_security_group.interservice.id
+  ]
 }
 
 resource "aws_ecs_cluster" "cluster" {
   name = local.namespace
-}
-
-resource "aws_efs_file_system" "efs_fs" {
-  creation_token = "example_efs_fs"
-}
-
-resource "aws_efs_mount_target" "efs_fs" {
-  file_system_id = aws_efs_file_system.efs_fs.id
-  subnet_id      = local.private_subnets[0]
 }
