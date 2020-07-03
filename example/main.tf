@@ -12,6 +12,11 @@ module "app_one_container_definition" {
     "while true; do echo \"$CONTENT\" && sleep 5s; done"
   ]
 
+  mount_points = [{
+    containerPath = "/efs_fs"
+    sourceVolume  = local.efs_volume_name
+  }]
+
   environment = {
     CONTENT = "one"
   }
@@ -66,7 +71,7 @@ module "task_definition" {
   ]
 
   efs_volumes = [{
-    name = "efs_fs"
+    name = local.efs_volume_name
     file_system_id = aws_efs_file_system.efs_fs.id
     root_directory = "/"
   }]

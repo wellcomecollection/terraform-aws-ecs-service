@@ -1,6 +1,8 @@
 locals {
   namespace = "terraform-aws-ecs-service-example"
 
+  efs_volume_name = "efs_fs"
+
   vpc_id          = data.terraform_remote_state.infra_shared.outputs.developer_vpc_id
   private_subnets = data.terraform_remote_state.infra_shared.outputs.developer_vpc_private_subnets
 
