@@ -1,3 +1,7 @@
+locals {
+  has_capacity_providers = length(var.capacity_provider_strategies) > 0
+}
+
 resource "aws_ecs_service" "service" {
   name            = var.service_name
   cluster         = var.cluster_arn
@@ -26,7 +30,7 @@ resource "aws_ecs_service" "service" {
   }
 
   # We can't specify both a Fargate launch type and a capacity provider strategy.
-  launch_type = var.use_fargate_spot ? null : var.launch_type
+  launch_type = var.use_fargate_spot || local.has_capacity_providers ? null : var.launch_type
 
   dynamic "capacity_provider_strategy" {
     for_each = var.use_fargate_spot ? [{}] : []
