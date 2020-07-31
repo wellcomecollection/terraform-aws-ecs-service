@@ -63,6 +63,10 @@ resource "aws_launch_template" "launch_template" {
       market_type = "spot"
     }
   }
+
+  iam_instance_profile {
+    arn = aws_iam_instance_profile.instance_profile.arn
+  }
 }
 
 data "aws_ami" "ecs_optimized" {
