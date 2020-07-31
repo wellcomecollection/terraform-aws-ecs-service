@@ -1,10 +1,10 @@
 resource "aws_autoscaling_group" "asg" {
   name                = "${var.name}_asg"
   max_size            = var.max_instances
+  default_cooldown    = var.scaling_action_cooldown
   vpc_zone_identifier = var.subnets
 
   min_size                  = 0
-  default_cooldown          = 60
   desired_capacity          = 0
   health_check_type         = "EC2"
   health_check_grace_period = 180
@@ -30,6 +30,12 @@ resource "aws_autoscaling_group" "asg" {
     value               = "${var.name}_instance"
     propagate_at_launch = true
   }
+
+  tag {
+    key                 = "AmazonECSManaged"
+    propagate_at_launch = true
+    value               = ""
+  }
 }
 
 resource "aws_launch_template" "launch_template" {
@@ -37,6 +43,7 @@ resource "aws_launch_template" "launch_template" {
   instance_type          = var.instance_type
   image_id               = var.ami_id == null ? data.aws_ami.ecs_optimized.id : var.ami_id
   vpc_security_group_ids = var.security_group_ids
+  user_data              = base64encode(data.template_file.user_data.rendered)
   update_default_version = true
 
   ebs_optimized = var.ebs_size_gb > 0
@@ -76,5 +83,13 @@ data "aws_ami" "ecs_optimized" {
   filter {
     name   = "name"
     values = ["amzn-ami-*-amazon-ecs-optimized"]
+  }
+}
+
+data "template_file" "user_data" {
+  template = file("${path.module}/user_data.tpl")
+
+  vars = {
+    cluster_name = var.cluster_name
   }
 }

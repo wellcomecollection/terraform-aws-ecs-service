@@ -11,6 +11,10 @@ variable "instance_type" {
   type = string
 }
 
+variable "cluster_name" {
+  type = string
+}
+
 variable "security_group_ids" {
   type = list(string)
 }
@@ -37,4 +41,9 @@ variable "ebs_size_gb" {
 variable "ebs_volume_type" {
   type    = string
   default = "gp2"
+}
+
+variable "scaling_action_cooldown" {
+  type    = number
+  default = 120
 }

@@ -1,3 +1,3 @@
 output "name" {
-  value = var.service_name
+  value = aws_ecs_service.service.name
 }
