@@ -5,7 +5,6 @@ resource "aws_autoscaling_group" "asg" {
   vpc_zone_identifier = var.subnets
 
   min_size                  = 0
-  desired_capacity          = 0
   health_check_type         = "EC2"
   health_check_grace_period = 180
 
@@ -82,7 +81,7 @@ data "aws_ami" "ecs_optimized" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-*-amazon-ecs-optimized"]
+    values = ["amzn2-ami-ecs-hvm-*-x86_64-ebs"]
   }
 }
 
