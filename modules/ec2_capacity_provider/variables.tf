@@ -28,6 +28,11 @@ variable "use_spot_purchasing" {
   default = false
 }
 
+variable "assign_public_ips" {
+  type    = bool
+  default = false
+}
+
 variable "ami_id" {
   type    = string
   default = null // Uses the latest ECS-optimised AMI by default

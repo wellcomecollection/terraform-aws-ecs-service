@@ -70,6 +70,15 @@ resource "aws_launch_template" "launch_template" {
     }
   }
 
+  dynamic "network_interfaces" {
+    for_each = var.assign_public_ips ? [{}] : []
+
+    content {
+      associate_public_ip_address = true
+      security_groups             = var.security_group_ids
+    }
+  }
+
   iam_instance_profile {
     arn = aws_iam_instance_profile.instance_profile.arn
   }
