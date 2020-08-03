@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v3.1.0 - 2020-08-03
+
+- Add a module for a [cluster capacity provider backed by an Auto Scaling Group](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html) for EC2 services.
+- Make the service module able to use this capacity provider
+
 ## v3.0.0 - 2020-07-03
 
 Simplifies volume mounting, and provides efs/fargate compatibility to task definitions.
