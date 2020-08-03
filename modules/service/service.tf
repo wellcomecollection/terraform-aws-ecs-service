@@ -1,3 +1,7 @@
+locals {
+  has_capacity_providers = length(var.capacity_provider_strategies) > 0
+}
+
 resource "aws_ecs_service" "service" {
   name            = var.service_name
   cluster         = var.cluster_arn
@@ -6,7 +10,7 @@ resource "aws_ecs_service" "service" {
 
   // 1.4.0 is Required for EFS integration
   // Note: LATEST as of 03/07/2020 points at 1.3.0
-  platform_version = "1.4.0"
+  platform_version = var.launch_type == "FARGATE" ? "1.4.0" : null
 
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
   deployment_maximum_percent         = var.deployment_maximum_percent
@@ -25,8 +29,8 @@ resource "aws_ecs_service" "service" {
     }
   }
 
-  # We can't specify both a launch type and a capacity provider strategy.
-  launch_type = var.use_fargate_spot ? null : var.launch_type
+  # We can't specify both a Fargate launch type and a capacity provider strategy.
+  launch_type = var.use_fargate_spot || local.has_capacity_providers ? null : var.launch_type
 
   dynamic "capacity_provider_strategy" {
     for_each = var.use_fargate_spot ? [{}] : []
@@ -34,6 +38,36 @@ resource "aws_ecs_service" "service" {
     content {
       capacity_provider = "FARGATE_SPOT"
       weight            = 1
+    }
+  }
+
+  dynamic "capacity_provider_strategy" {
+    for_each = var.capacity_provider_strategies
+    iterator = strategy
+
+    content {
+      capacity_provider = strategy.value["capacity_provider"]
+      weight            = strategy.value["weight"]
+    }
+  }
+
+  dynamic "ordered_placement_strategy" {
+    for_each = var.ordered_placement_strategies
+    iterator = strategy
+
+    content {
+      type  = strategy.value["type"]
+      field = strategy.value["field"]
+    }
+  }
+
+  dynamic "placement_constraints" {
+    for_each = var.placement_constraints
+    iterator = constraint
+
+    content {
+      type       = constraint.value["type"]
+      expression = constraint.value["expression"]
     }
   }
 
@@ -65,7 +99,7 @@ resource "aws_ecs_service" "service" {
     }
   }
 
-  tags = var.tags
+  tags           = var.tags
   propagate_tags = var.propagate_tags
 
   # The desired_count of our services can be changed externally (e.g. by autoscaling).

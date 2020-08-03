@@ -2,12 +2,12 @@ variable "service_name" {}
 variable "cluster_arn" {}
 
 variable "propagate_tags" {
-  type = string
+  type    = string
   default = null
 }
 
 variable "tags" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }
 
@@ -71,4 +71,28 @@ variable "container_port" {
 variable "use_fargate_spot" {
   type    = bool
   default = false
+}
+
+variable "capacity_provider_strategies" {
+  type = list(object({
+    capacity_provider = string
+    weight            = number
+  }))
+  default = []
+}
+
+variable "ordered_placement_strategies" {
+  type = list(object({
+    type  = string
+    field = string
+  }))
+  default = []
+}
+
+variable "placement_constraints" {
+  type = list(object({
+    type       = string
+    expression = string
+  }))
+  default = []
 }
