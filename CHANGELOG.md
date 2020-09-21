@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v3.2.0 - 2020-09-21
+
+Offers dedicated tags for:
+- "deployment:env"
+- "deployment:service"
+- "deployment:label"
+
+Changes to "deployment:label" are ignored, allowing it to be safely updated outside of terraform.
+
 ## v3.1.0 - 2020-08-03
 
 - Add a module for a [cluster capacity provider backed by an Auto Scaling Group](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html) for EC2 services.
