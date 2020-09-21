@@ -99,7 +99,7 @@ resource "aws_ecs_service" "service" {
     }
   }
 
-  tags           = var.tags
+  tags           = local.tags
   propagate_tags = var.propagate_tags
 
   # The desired_count of our services can be changed externally (e.g. by autoscaling).
@@ -110,6 +110,21 @@ resource "aws_ecs_service" "service" {
   lifecycle {
     ignore_changes = [
       desired_count,
+
+      # Allows this value to be set outside of terraform without causing apply churn
+      tags["deployment:label"]
     ]
   }
+}
+
+locals {
+  deployment_tags_template = {
+    "deployment:label": var.deployment_label
+    "deployment:env": var.deployment_env
+    "deployment:service": var.deployment_service
+  }
+
+  deployment_tags = { for k, v in local.deployment_tags_template : k => v if ! v == "" }
+
+  tags = merge(local.deployment_tags, var.tags)
 }
