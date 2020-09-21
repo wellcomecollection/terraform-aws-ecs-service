@@ -124,7 +124,7 @@ locals {
     "deployment:service": var.deployment_service
   }
 
-  deployment_tags = { for k, v in local.deployment_tags_template : k => v if ! v == "" }
+  deployment_tags = { for k, v in local.deployment_tags_template : k => v if v != "" }
 
   tags = merge(local.deployment_tags, var.tags)
 }
