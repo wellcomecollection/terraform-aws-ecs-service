@@ -96,3 +96,15 @@ variable "placement_constraints" {
   }))
   default = []
 }
+
+variable "deployment_label" {
+  default = ""
+}
+
+variable "deployment_env" {
+  default = ""
+}
+
+variable "deployment_service" {
+  default = ""
+}
