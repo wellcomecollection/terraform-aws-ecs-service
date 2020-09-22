@@ -116,16 +116,17 @@ def has_source_changes(version=None):
 
 def create_tag_and_push():
     assert __version__ not in tags()
-    git("config", "user.name", "Travis CI on behalf of Wellcome")
-    git("config", "user.email", "wellcomedigitalplatform@wellcome.ac.uk")
-    git("config", "core.sshCommand", "ssh -i id_rsa")
-    git(
-        "remote", "add", "ssh-origin", REPO_URL,
-    )
-    git("tag", __version__)
 
-    subprocess.check_call(["git", "push", "ssh-origin", "HEAD:master"])
-    subprocess.check_call(["git", "push", "ssh-origin", "--tags"])
+    git('config', 'user.name', 'Buildkite on behalf of Wellcome Collection')
+    git('config', 'user.email', 'wellcomedigitalplatform@wellcome.ac.uk')
+    git(
+        'remote', 'add', 'ssh-origin',
+        'git@github.com:wellcomecollection/weco-deploy.git'
+    )
+    git('tag', __version__)
+
+    subprocess.check_call(['git', 'push', 'ssh-origin', 'HEAD:master'])
+    subprocess.check_call(['git', 'push', 'ssh-origin', '--tags'])
 
 
 def modified_files():
@@ -238,7 +239,7 @@ def update_changelog_and_version():
 
 
 def update_for_pending_release():
-    git("config", "user.name", "Travis CI on behalf of Wellcome")
+    git("config", "user.name", "Buildkite on behalf of Wellcome")
     git("config", "user.email", "wellcomedigitalplatform@wellcome.ac.uk")
     update_changelog_and_version()
 
@@ -264,68 +265,21 @@ def changed_files(*args):
     return files
 
 
-def make(task, dry_run=False):
-    if dry_run:
-        command = ["make", "--dry-run", task]
-    else:
-        command = ["make", task]
-    print("*** Running %r" % command, flush=True)
-    subprocess.check_call(command)
-
-
 def autoformat():
-    subprocess.check_call(
-        [
-            "docker",
-            "run",
-            "--rm",
-            "--tty",
-            "--volume",
-            "%s:/repo" % os.path.abspath(os.curdir),
-            "--workdir",
-            "/repo",
-            "hashicorp/terraform:light",
-            "fmt",
-        ]
-    )
+    branch = os.environ["BUILDKITE_BRANCH"]
 
-    # https://graysonkoonce.com/getting-the-current-branch-name-during-a-pull-request-in-travis-ci/
-    if os.environ["TRAVIS_PULL_REQUEST"] == "false":
-        branch = os.environ["TRAVIS_BRANCH"]
-    else:
-        branch = os.environ["TRAVIS_PULL_REQUEST_BRANCH"]
+    subprocess.check_call(["terraform", "fmt"])
 
     if changed_files():
         print("*** There were changes from formatting, creating a commit", flush=True)
 
-        git("config", "user.name", "Travis CI on behalf of Wellcome")
-        git("config", "user.email", "wellcomedigitalplatform@wellcome.ac.uk")
-        git("config", "core.sshCommand", "ssh -i id_rsa")
-
-        git("remote", "add", "ssh-origin", REPO_URL)
-
-        # Unencrypt the SSH key.
-        subprocess.check_call(
-            [
-                "openssl",
-                "aes-256-cbc",
-                "-K",
-                os.environ["encrypted_83630750896a_key"],
-                "-iv",
-                os.environ["encrypted_83630750896a_iv"],
-                "-in",
-                "id_rsa.enc",
-                "-out",
-                "id_rsa",
-                "-d",
-            ]
+        git('config', 'user.name', 'Buildkite on behalf of Wellcome Collection')
+        git('config', 'user.email', 'wellcomedigitalplatform@wellcome.ac.uk')
+        git(
+            'remote', 'add', 'ssh-origin',
+            'git@github.com:wellcomecollection/weco-deploy.git'
         )
-        subprocess.check_call(["chmod", "400", "id_rsa"])
-
-        # We checkout the branch before we add the commit, so we don't
-        # include the merge commit that Travis makes.
-        git("fetch", "ssh-origin")
-        git("checkout", branch)
+        git('tag', __version__)
 
         git("add", "--verbose", "--all")
         git("commit", "-m", "Apply auto-formatting rules")
