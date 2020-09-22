@@ -1,0 +1,5 @@
+- label: "test"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: tooling
+        command: ["autoformat"]

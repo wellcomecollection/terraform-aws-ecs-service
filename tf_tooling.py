@@ -371,30 +371,6 @@ def release():
         print("Not deploying due to no release")
         sys.exit(0)
 
-    if os.environ.get("TRAVIS_SECURE_ENV_VARS", None) != "true":
-        print("But we don't have the keys to do it")
-        sys.exit(1)
-
-    print("Decrypting secrets")
-
-    # Unencrypt the SSH key.
-    subprocess.check_call(
-        [
-            "openssl",
-            "aes-256-cbc",
-            "-K",
-            os.environ["encrypted_83630750896a_key"],
-            "-iv",
-            os.environ["encrypted_83630750896a_iv"],
-            "-in",
-            "id_rsa.enc",
-            "-out",
-            "id_rsa",
-            "-d",
-        ]
-    )
-    subprocess.check_call(["chmod", "400", "id_rsa"])
-
     print("Release seems good. Pushing to GitHub now.")
 
     create_tag_and_push()

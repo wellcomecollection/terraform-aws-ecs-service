@@ -1,0 +1,11 @@
+version: "3.3"
+services:
+  tooling:
+    build:
+      context: .
+    volumes:
+      - .:/workdir
+      - ${HOME}/.ssh/known_hosts:/root/.ssh/known_hosts
+      - ${SSH_AUTH_SOCK}:/ssh-agent.sock
+    environment:
+      - SSH_AUTH_SOCK=/ssh-agent.sock
