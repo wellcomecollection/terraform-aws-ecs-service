@@ -29,7 +29,8 @@ import subprocess
 from datetime import datetime, timedelta
 
 
-REPO_URL = os.environ["REPO_URL"]
+GIT_BRANCH = os.environ["BUILDKITE_BRANCH"]
+REPO_URL = os.environ["BUILDKITE_REPO"]
 
 
 def git(*args):
@@ -41,10 +42,7 @@ def setup_git():
     git('config', 'user.email', 'wellcomedigitalplatform@wellcome.ac.uk')
 
     try:
-        git(
-            'remote', 'add', 'ssh-origin',
-            'git@github.com:wellcomecollection/weco-deploy.git'
-        )
+        git('remote', 'add', 'ssh-origin', REPO_URL)
     except subprocess.CalledProcessError:
         print("Could not add ssh-origin (maybe already exists?)")
 
@@ -267,8 +265,6 @@ def changed_files(*args):
 
 
 def autoformat():
-    branch = os.environ["BUILDKITE_BRANCH"]
-    # ch ch ch changes
     subprocess.check_call(["terraform", "fmt"])
 
     if changed_files():
@@ -278,7 +274,7 @@ def autoformat():
 
         git("add", "--verbose", "--all")
         git("commit", "-m", "Apply auto-formatting rules")
-        git("push", "ssh-origin", "HEAD:%s" % branch)
+        git("push", "ssh-origin", "HEAD:%s" % GIT_BRANCH)
 
         sys.exit(1)
     else:
