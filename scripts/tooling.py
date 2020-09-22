@@ -36,12 +36,17 @@ def git(*args):
     return subprocess.check_output(("git",) + args).decode("utf8").strip()
 
 
-def current_branch():
-    return (
-        subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"])
-        .decode("ascii")
-        .strip()
-    )
+def setup_git():
+    git('config', 'user.name', 'Buildkite on behalf of Wellcome Collection')
+    git('config', 'user.email', 'wellcomedigitalplatform@wellcome.ac.uk')
+
+    try:
+        git(
+            'remote', 'add', 'ssh-origin',
+            'git@github.com:wellcomecollection/weco-deploy.git'
+        )
+    except subprocess.CalledProcessError:
+        print("Could not add ssh-origin (maybe already exists?)")
 
 
 def tags():
@@ -117,12 +122,8 @@ def has_source_changes(version=None):
 def create_tag_and_push():
     assert __version__ not in tags()
 
-    git('config', 'user.name', 'Buildkite on behalf of Wellcome Collection')
-    git('config', 'user.email', 'wellcomedigitalplatform@wellcome.ac.uk')
-    git(
-        'remote', 'add', 'ssh-origin',
-        'git@github.com:wellcomecollection/weco-deploy.git'
-    )
+    setup_git()
+
     git('tag', __version__)
 
     subprocess.check_call(['git', 'push', 'ssh-origin', 'HEAD:master'])
@@ -267,19 +268,13 @@ def changed_files(*args):
 
 def autoformat():
     branch = os.environ["BUILDKITE_BRANCH"]
-
+    # ch ch ch changes
     subprocess.check_call(["terraform", "fmt"])
 
     if changed_files():
         print("*** There were changes from formatting, creating a commit", flush=True)
 
-        git('config', 'user.name', 'Buildkite on behalf of Wellcome Collection')
-        git('config', 'user.email', 'wellcomedigitalplatform@wellcome.ac.uk')
-        git(
-            'remote', 'add', 'ssh-origin',
-            'git@github.com:wellcomecollection/weco-deploy.git'
-        )
-        git('tag', __version__)
+        setup_git()
 
         git("add", "--verbose", "--all")
         git("commit", "-m", "Apply auto-formatting rules")
