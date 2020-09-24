@@ -307,7 +307,7 @@ def release():
 
     on_master = is_ancestor(HEAD, MASTER)
 
-    if has_release:
+    if has_release():
         print("Updating changelog and version")
         update_for_pending_release()
     else:
