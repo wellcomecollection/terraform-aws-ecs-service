@@ -240,6 +240,7 @@ def update_changelog_and_version():
 def update_for_pending_release():
     git("config", "user.name", "Buildkite on behalf of Wellcome")
     git("config", "user.email", "wellcomedigitalplatform@wellcome.ac.uk")
+
     update_changelog_and_version()
 
     git("rm", RELEASE_FILE)
@@ -306,16 +307,15 @@ def release():
 
     on_master = is_ancestor(HEAD, MASTER)
 
-    if has_release():
+    if has_release:
         print("Updating changelog and version")
         update_for_pending_release()
+    else:
+        print("Not deploying due to no release")
+        sys.exit(0)
 
     if not on_master:
         print("Not deploying due to not being on master")
-        sys.exit(0)
-
-    if not has_release:
-        print("Not deploying due to no release")
         sys.exit(0)
 
     print("Release seems good. Pushing to GitHub now.")
