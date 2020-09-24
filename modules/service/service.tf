@@ -119,9 +119,9 @@ resource "aws_ecs_service" "service" {
 
 locals {
   deployment_tags_template = {
-    "deployment:label": var.deployment_label
-    "deployment:env": var.deployment_env
-    "deployment:service": var.deployment_service
+    "deployment:label" : var.deployment_label
+    "deployment:env" : var.deployment_env
+    "deployment:service" : var.deployment_service
   }
 
   deployment_tags = { for k, v in local.deployment_tags_template : k => v if v != "" }
