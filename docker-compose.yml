@@ -9,6 +9,6 @@ services:
       - ${SSH_AUTH_SOCK}:/ssh-agent.sock
     environment:
       - SSH_AUTH_SOCK=/ssh-agent.sock
-#      - BUILDKITE_BRANCH=buildkite
-#      - BUILDKITE_REPO=git@github.com:wellcomecollection/terraform-aws-ecs-service.git
-#    command: ["autoformat"]
+      - BUILDKITE_BRANCH=buildkite
+      - BUILDKITE_REPO=git@github.com:wellcomecollection/terraform-aws-ecs-service.git
+    command: ["autoformat"]
