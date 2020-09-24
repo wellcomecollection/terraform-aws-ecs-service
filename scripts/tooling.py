@@ -265,7 +265,7 @@ def changed_files(*args):
 
 
 def autoformat():
-    subprocess.check_call(["terraform", "fmt"])
+    subprocess.check_call(["terraform", "fmt", "-recursive"])
 
     if changed_files():
         print("*** There were changes from formatting, creating a commit", flush=True)
