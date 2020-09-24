@@ -73,7 +73,7 @@ module "task_definition" {
   ]
 
   efs_volumes = [{
-    name = local.efs_volume_name
+    name           = local.efs_volume_name
     file_system_id = aws_efs_file_system.efs_fs.id
     root_directory = "/"
   }]
@@ -91,13 +91,13 @@ module "service" {
   service_name = local.namespace
 
   task_definition_arn = module.task_definition.arn
-  
+
   target_group_arn = aws_alb_target_group.service.arn
 
-  container_port   = local.container_Port
-  container_name   = module.nginx_container_definition.name
-  
-  subnets            = local.private_subnets
+  container_port = local.container_Port
+  container_name = module.nginx_container_definition.name
+
+  subnets = local.private_subnets
   security_group_ids = [
     aws_security_group.allow_full_egress.id,
     aws_security_group.interservice.id

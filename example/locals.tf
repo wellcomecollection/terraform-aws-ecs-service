@@ -5,7 +5,7 @@ locals {
 
   vpc_id          = data.terraform_remote_state.infra_shared.outputs.developer_vpc_id
   private_subnets = data.terraform_remote_state.infra_shared.outputs.developer_vpc_private_subnets
-  public_subnets = data.terraform_remote_state.infra_shared.outputs.developer_vpc_public_subnets
+  public_subnets  = data.terraform_remote_state.infra_shared.outputs.developer_vpc_public_subnets
 
   container_Port = 80
   host_port      = 80

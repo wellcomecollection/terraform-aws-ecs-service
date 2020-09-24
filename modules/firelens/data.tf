@@ -3,7 +3,7 @@ locals {
     logDriver = "awsfirelens"
     options = {
       Name  = "null"
-      Match      = "*",
+      Match = "*",
     }
 
     secretOptions = null
