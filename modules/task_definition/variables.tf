@@ -29,7 +29,7 @@ variable "memory" {
 
 variable "volumes" {
   type = list(object({
-    name = string
+    name      = string
     host_path = string
   }))
   default = []
@@ -37,7 +37,7 @@ variable "volumes" {
 
 variable "efs_volumes" {
   type = list(object({
-    name = string
+    name           = string
     file_system_id = string
     root_directory = string
   }))
@@ -46,7 +46,7 @@ variable "efs_volumes" {
 
 variable "placement_constraints" {
   type = list(object({
-    type = string
+    type       = string
     expression = string
   }))
   default = []

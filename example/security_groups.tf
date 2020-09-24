@@ -4,9 +4,9 @@ resource "aws_security_group" "nfs_inbound" {
   vpc_id      = local.vpc_id
 
   ingress {
-    from_port   = 2049
-    to_port     = 2049
-    protocol    = "TCP"
+    from_port = 2049
+    to_port   = 2049
+    protocol  = "TCP"
 
     cidr_blocks = [data.aws_vpc.vpc.cidr_block]
   }
@@ -18,9 +18,9 @@ resource "aws_security_group" "interservice" {
   vpc_id      = local.vpc_id
 
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
 
     cidr_blocks = [data.aws_vpc.vpc.cidr_block]
   }
@@ -41,8 +41,8 @@ resource "aws_security_group" "allow_full_egress" {
 }
 
 resource "aws_security_group" "load_balancer" {
-  name        = "example_load_balancer"
-  vpc_id      = local.vpc_id
+  name   = "example_load_balancer"
+  vpc_id = local.vpc_id
 
   ingress {
     protocol  = "tcp"

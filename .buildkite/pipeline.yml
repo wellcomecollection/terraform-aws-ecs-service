@@ -1,0 +1,18 @@
+- label: "autoformat"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: tooling
+        command: ["autoformat"]
+        env:
+          - BUILDKITE_BRANCH
+          - BUILDKITE_REPO
+
+- label: "release"
+  if: build.branch == "master"
+  plugins:
+    - docker-compose#v3.5.0:
+        run: tooling
+        command: ["release"]
+        env:
+          - BUILDKITE_BRANCH
+          - BUILDKITE_REPO
