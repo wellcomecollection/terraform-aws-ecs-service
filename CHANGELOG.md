@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.2.2 - 2020-09-24
+
+Bump for release
+
 ## v3.2.1 - 2020-09-24
 
 Bump for release
