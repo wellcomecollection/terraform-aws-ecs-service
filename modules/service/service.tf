@@ -110,16 +110,12 @@ resource "aws_ecs_service" "service" {
   lifecycle {
     ignore_changes = [
       desired_count,
-
-      # Allows this value to be set outside of terraform without causing apply churn
-      tags["deployment:label"]
     ]
   }
 }
 
 locals {
   deployment_tags_template = {
-    "deployment:label" : var.deployment_label
     "deployment:env" : var.deployment_env
     "deployment:service" : var.deployment_service
   }

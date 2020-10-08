@@ -3,7 +3,7 @@ variable "cluster_arn" {}
 
 variable "propagate_tags" {
   type    = string
-  default = null
+  default = "SERVICE"
 }
 
 variable "tags" {
@@ -95,10 +95,6 @@ variable "placement_constraints" {
     expression = string
   }))
   default = []
-}
-
-variable "deployment_label" {
-  default = ""
 }
 
 variable "deployment_env" {
