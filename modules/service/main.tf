@@ -1,9 +1,3 @@
-module "iam_role" {
-  source = "./iam_role"
-
-  service_name = var.service_name
-}
-
 resource "aws_service_discovery_service" "service_discovery" {
   // This is a toggle implemented using for_each:
   // https://www.terraform.io/docs/configuration/resources.html#for_each-multiple-resource-instances-defined-by-a-map-or-set-of-strings
