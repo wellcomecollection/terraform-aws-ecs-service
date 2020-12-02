@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v3.3.1 - 2020-12-02
+
+Remove an IAM role that we're not using in the `service` module.
+The role isn't used anywhere, and not published as a module output for callers to use.
+
 ## v3.3.0 - 2020-10-08
 
 Remove deployment label from tags - this functionality does not work!
