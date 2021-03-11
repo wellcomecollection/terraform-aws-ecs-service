@@ -34,7 +34,7 @@ locals {
   shared_secrets_logging = {
     ES_USER = "shared/logging/es_user"
     ES_PASS = "shared/logging/es_pass"
-    ES_HOST = "shared/logging/es_host"
+    ES_HOST = var.use_privatelink_endpoint ? "shared/logging/es_host_private" : "shared/logging/es_host"
     ES_PORT = "shared/logging/es_port"
   }
 }
