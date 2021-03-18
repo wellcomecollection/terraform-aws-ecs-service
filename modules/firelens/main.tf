@@ -36,5 +36,7 @@ module "log_router_container" {
 
     secretOptions = null
   }
+
+  essential = var.essential
 }
 
