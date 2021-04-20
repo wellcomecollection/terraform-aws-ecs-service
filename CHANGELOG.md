@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.5.2 - 2021-04-20
+
+Fix a bug in the firelens module in v3.5.1.
+
 ## v3.5.1 - 2021-04-20
 
 Fix a bug in the firelens module in v3.5.0.
