@@ -1,3 +1,11 @@
+locals {
+  log_group_name = var.namespace
+}
+
+resource "aws_cloudwatch_log_group" "log_router" {
+  name = local.log_group_name
+}
+
 module "log_router_container" {
   source = "../../modules/container_definition"
   image  = local.image
@@ -28,9 +36,9 @@ module "log_router_container" {
     logDriver = "awslogs"
 
     options = {
-      "awslogs-group"         = var.namespace,
+      "awslogs-group"         = var.log_group_name,
       "awslogs-region"        = "eu-west-1",
-      "awslogs-create-group"  = "true",
+      "awslogs-create-group"  = "false",
       "awslogs-stream-prefix" = "log_router"
     }
 
