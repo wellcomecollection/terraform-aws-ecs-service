@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v3.5.0 - 2021-04-20
+
+The CloudWatch log group is now created (and deleted) by the Terraform module, rather than created on-the-fly by the services.
+This means old log groups will get cleaned up when you delete a service, rather than hanging around forever.
+
 ## v3.4.0 - 2021-03-11
 
 This adds a variable `use_privatelink_endpoint` to the `firelens` module, which causes logs to be sent via the PrivateLink endpoint instead of over the public Internet/NAT Gateway.
