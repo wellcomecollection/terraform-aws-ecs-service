@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.5.1 - 2021-04-20
+
+Fix a bug in the firelens module in v3.5.0.
+
 ## v3.5.0 - 2021-04-20
 
 The CloudWatch log group is now created (and deleted) by the Terraform module, rather than created on-the-fly by the services.
