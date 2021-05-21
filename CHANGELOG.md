@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v3.6.0 - 2021-05-21
+
+This change means that we access/reference secrets directly in Secrets Manager, rather than by using the Parameter Store integration.
+
+Whilst this is more verbose, it means that consumers can directly reference specific keys within secrets that are JSON objects - as this is a feature of Secrets Manager, not parameter store.
+
 ## v3.5.2 - 2021-04-20
 
 Fix a bug in the firelens module in v3.5.1.
