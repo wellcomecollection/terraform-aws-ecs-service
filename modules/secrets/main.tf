@@ -6,3 +6,18 @@ resource "aws_iam_role_policy" "allow_read_secrets" {
   role   = var.role_name
   policy = data.aws_iam_policy_document.read_secrets.json
 }
+
+data "aws_iam_policy_document" "read_secrets" {
+  statement {
+    actions = [
+      "secretsmanager:GetSecretValue",
+    ]
+
+    resources = values(module.secret_arns.without_keys)
+  }
+}
+
+module "secret_arns" {
+  source  = "../secret_arns"
+  secrets = var.secrets
+}
