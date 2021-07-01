@@ -10,7 +10,7 @@
 - wait
 
 - label: "release"
-  if: build.branch == "master"
+  if: build.branch == "main"
   plugins:
     - docker-compose#v3.5.0:
         run: tooling

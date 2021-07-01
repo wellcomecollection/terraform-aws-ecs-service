@@ -124,7 +124,7 @@ def create_tag_and_push():
 
     git('tag', __version__)
 
-    subprocess.check_call(['git', 'push', 'ssh-origin', 'HEAD:master'])
+    subprocess.check_call(['git', 'push', 'ssh-origin', 'HEAD:main'])
     subprocess.check_call(['git', 'push', 'ssh-origin', '--tags'])
 
 
@@ -301,11 +301,11 @@ def release():
     )
 
     HEAD = hash_for_name("HEAD")
-    MASTER = hash_for_name("origin/master")
+    MAIN = hash_for_name("origin/main")
     print("Current head:", HEAD)
-    print("Current master:", MASTER)
+    print("Current main:", MAIN)
 
-    on_master = is_ancestor(HEAD, MASTER)
+    on_main = is_ancestor(HEAD, MAIN)
 
     if has_release():
         print("Updating changelog and version")
@@ -314,8 +314,8 @@ def release():
         print("Not deploying due to no release")
         sys.exit(0)
 
-    if not on_master:
-        print("Not deploying due to not being on master")
+    if not on_main:
+        print("Not deploying due to not being on main")
         sys.exit(0)
 
     print("Release seems good. Pushing to GitHub now.")

@@ -6,7 +6,7 @@ variable "container_registry" {
   type        = string
   description = "URL to the container registry for the logging image"
 
-  # See https://github.com/wellcomecollection/platform-infrastructure/tree/master/containers
+  # See https://github.com/wellcomecollection/platform-infrastructure/tree/main/images
   default = "760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome"
 }
 
