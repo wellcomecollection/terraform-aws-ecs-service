@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.8.0 - 2021-07-01
+
+You can now set the `container_registry` and `container_name` in the `nginx/apigw` module, e.g. if you want to pull your fluentbit container from our ECR Public repo (<https://gallery.ecr.aws/l7a1d1z4/nginx_apigw>).
+
 ## v3.7.0 - 2021-07-01
 
 You can now set the `container_registry` and `container_name` in the `firelens` module, e.g. if you want to pull your fluentbit container from our ECR Public repo (<https://gallery.ecr.aws/l7a1d1z4/fluentbit>).
