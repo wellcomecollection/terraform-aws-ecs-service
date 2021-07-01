@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.7.0 - 2021-07-01
+
+You can now set the `container_registry` and `container_name` in the `firelens` module, e.g. if you want to pull your fluentbit container from our ECR Public repo (<https://gallery.ecr.aws/l7a1d1z4/fluentbit>).
+
 ## v3.6.0 - 2021-05-21
 
 This change means that we access/reference secrets directly in Secrets Manager, rather than by using the Parameter Store integration.
