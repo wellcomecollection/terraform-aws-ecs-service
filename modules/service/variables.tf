@@ -28,6 +28,11 @@ variable "service_discovery_namespace_id" {
   default = null
 }
 
+variable "enable_service_discovery" {
+  type    = bool
+  default = null
+}
+
 variable "security_group_ids" {
   type    = list(string)
   default = []
