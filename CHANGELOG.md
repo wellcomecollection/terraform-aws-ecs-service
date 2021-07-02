@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v3.9.0 - 2021-07-02
+
+Add a boolean `enable_service_discovery` variable to the `service` module.
+
+This allows callers to confirm that they're definitely going to use service discovery, and prevent an error like:
+
+> The "for_each" value depends on resource attributes that cannot be
+> determined until apply, so Terraform cannot predict how many instances
+> will be created. To work around this, use the -target argument to first
+> apply only the resources that the for_each depends on.
+
 ## v3.8.0 - 2021-07-01
 
 You can now set the `container_registry` and `container_name` in the `nginx/apigw` module, e.g. if you want to pull your fluentbit container from our ECR Public repo (<https://gallery.ecr.aws/l7a1d1z4/nginx_apigw>).
