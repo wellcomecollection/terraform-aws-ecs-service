@@ -33,7 +33,7 @@ locals {
   }
 
   secret_references_with_keys = {
-    for label, parts in local.secret_references:
+    for label, parts in local.secret_references :
     label => parts
     if parts["key"] != ""
   }
@@ -45,7 +45,7 @@ locals {
 
   valuesFrom = {
     for label, secret in local.secret_references : label =>
-      secret["key"] == "" ? "${local.ssm_prefix}${secret["name"]}" : "${data.aws_secretsmanager_secret.for_service[label].arn}:${secret["key"]}::"
+    secret["key"] == "" ? "${local.ssm_prefix}${secret["name"]}" : "${data.aws_secretsmanager_secret.for_service[label].arn}:${secret["key"]}::"
   }
 
   arns = {
