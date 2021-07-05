@@ -5,7 +5,7 @@ locals {
   // references.
   //
   // See "Example referencing a specific key within a secret" here:
-  // https://docs.aws.amazon.com/AmazonECS/latest/userguide/specifying-sensitive-data-secrets.html
+  // https://docs.aws.amazon.com/AmazonECS/latest/userguide/specifying-sensitive-data-secrets.html#secrets-examples
   secret_reference_parts = {
     for key, secret in var.secrets : key => split(":", secret)
   }
