@@ -7,22 +7,22 @@ locals {
   // See "Example referencing a specific key within a secret" here:
   // https://docs.aws.amazon.com/AmazonECS/latest/userguide/specifying-sensitive-data-secrets.html#secrets-examples
   secret_reference_parts = {
-    for key, secret in var.secrets : key => split(":", secret)
+    for label, secret in var.secrets : label => split(":", secret)
   }
   secret_references = {
-    for key, parts in local.secret_reference_parts : key => {
+    for label, parts in local.secret_reference_parts : label => {
       name = parts[0]
       key  = length(parts) == 2 ? parts[1] : ""
     }
   }
 
   arns_without_keys = {
-    for key, secret in local.secret_references : key => data.aws_secretsmanager_secret.for_service[key].arn
+    for label, secret in local.secret_references : label => data.aws_secretsmanager_secret.for_service[label].arn
   }
 
   arns_with_keys = {
-    for key, secret in local.secret_references : key =>
-    secret["key"] == "" ? local.arns_without_keys[key] : "${local.arns_without_keys[key]}:${secret["key"]}::"
+    for label, secret in local.secret_references : label =>
+    secret["key"] == "" ? local.arns_without_keys[label] : "${local.arns_without_keys[label]}:${secret["key"]}::"
   }
 }
 
