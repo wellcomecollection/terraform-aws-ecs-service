@@ -14,7 +14,7 @@
 #
 # See https://github.com/wellcomecollection/platform/issues/5206#issuecomment-870816928
 locals {
-  enable_service_discovery = var.enable_service_discovery == true ? true : var.service_discovery_namespace_id == null
+  enable_service_discovery = var.enable_service_discovery == true ? true : var.service_discovery_namespace_id != null
 }
 
 resource "aws_service_discovery_service" "service_discovery" {

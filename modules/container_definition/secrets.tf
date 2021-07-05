@@ -6,12 +6,12 @@ locals {
     for key in local.sorted_secrets_keys :
     {
       name      = key
-      valueFrom = module.secret_arns.with_keys[key]
+      valueFrom = module.secret_references.valuesFrom[key]
     }
   ]
 }
 
-module "secret_arns" {
-  source  = "../secret_arns"
+module "secret_references" {
+  source  = "../secret_references"
   secrets = var.secrets
 }
