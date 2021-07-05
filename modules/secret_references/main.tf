@@ -32,16 +32,29 @@ locals {
     }
   }
 
+  secret_references_with_keys = {
+    for label, parts in local.secret_references:
+    label => parts
+    if parts["key"] != ""
+  }
+
   aws_region = data.aws_region.current.name
   account_id = data.aws_caller_identity.current.account_id
 
-  arns_without_keys = {
+  ssm_prefix = "/aws/reference/secretsmanager/"
+
+  valuesFrom = {
     for label, secret in local.secret_references : label =>
-      "arn:aws:secretsmanager:${local.aws_region}:${local.account_id}:secret:${secret["name"]}"
+      secret["key"] == "" ? "${local.ssm_prefix}${secret["name"]}" : "${data.aws_secretsmanager_secret.for_service[label].arn}:${secret["key"]}::"
   }
 
-  arns_with_keys = {
+  arns = {
     for label, secret in local.secret_references : label =>
-    secret["key"] == "" ? local.arns_without_keys[label] : "${local.arns_without_keys[label]}:${secret["key"]}::"
+    "arn:aws:secretsmanager:${local.aws_region}:${local.account_id}:secret:${secret["name"]}"
   }
+}
+
+data "aws_secretsmanager_secret" "for_service" {
+  for_each = local.secret_references_with_keys
+  name     = each.value["name"]
 }
