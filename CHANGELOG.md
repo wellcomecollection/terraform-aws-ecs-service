@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.9.3 - 2021-07-14
+
+Same as the previous release, but now actually using the region.
+
 ## v3.9.2 - 2021-07-14
 
 Use the provider region for the CloudWatch Logs group in the `firelens` module, rather than requiring eu-west-1.
