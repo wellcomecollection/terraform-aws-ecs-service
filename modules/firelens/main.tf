@@ -40,7 +40,7 @@ module "log_router_container" {
 
     options = {
       "awslogs-group"         = local.log_group_name,
-      "awslogs-region"        = "eu-west-1",
+      "awslogs-region"        = local.aws_region,
       "awslogs-stream-prefix" = "log_router"
     }
 
