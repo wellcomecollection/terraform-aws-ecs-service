@@ -29,12 +29,12 @@ resource "aws_iam_role_policy" "execution_role_policy" {
 data "aws_iam_policy_document" "task_execution_role" {
   statement {
     actions = [
-      "ecr:GetAuthorizationToken",
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:BatchGetImage",
-      "logs:CreateLogStream",
       "logs:PutLogEvents",
+      "logs:CreateLogStream",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchGetImage",
+      "ecr:BatchCheckLayerAvailability",
     ]
 
     resources = [
