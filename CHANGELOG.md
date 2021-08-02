@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v3.9.4 - 2021-08-02
+
+Only retain CloudWatch logs for the log router for 7 days, rather than forever.
+
+This affects the `firelens` module.
+
 ## v3.9.3 - 2021-07-14
 
 Same as the previous release, but now actually using the region.
