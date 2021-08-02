@@ -8,6 +8,10 @@ locals {
 resource "aws_cloudwatch_log_group" "log_router" {
   name = local.log_group_name
 
+  # This log group contains the logs from the log router container, which are
+  # messages like "I successfully connected to ES" or "I couldn't write to ES".
+  # They're meant for debugging the log router container, and they don't have
+  # much long-term value.
   retention_in_days = 7
 }
 
