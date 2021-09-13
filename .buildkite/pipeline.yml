@@ -6,6 +6,8 @@
         env:
           - BUILDKITE_BRANCH
           - BUILDKITE_REPO
+  agents:
+    queue: nano
 
 - wait
 
@@ -18,3 +20,5 @@
         env:
           - BUILDKITE_BRANCH
           - BUILDKITE_REPO
+  agents:
+    queue: nano
