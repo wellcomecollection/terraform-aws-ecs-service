@@ -34,7 +34,7 @@ variable "deployment_circuit_breaker" {
 }
 
 variable "deployment_circuit_breaker_rollback" {
-  type = bool
+  type    = bool
   default = false
 }
 
