@@ -22,12 +22,10 @@ locals {
     secretOptions = null
   }
 
-  // See https://github.com/wellcomecollection/platform-infrastructure/tree/master/containers
-  ecr_repo = "760097843905.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/fluentbit"
-  image    = "${local.ecr_repo}:${var.container_tag}"
+  image = "${var.container_registry}/${var.container_name}:${var.container_tag}"
 
   // These secrets are assigned on a per account basis:
-  // https://github.com/wellcomecollection/platform-infrastructure/blob/master/shared/secrets.tf
+  // https://github.com/wellcomecollection/platform-infrastructure/blob/main/critical/secrets.tf
   // The secrets are copied between accounts to the same identifiers.
   // This results in secrets having the same SSM paths in every account,
   // although those paths refer to the secrets in that particular account.

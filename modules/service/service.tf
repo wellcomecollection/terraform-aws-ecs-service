@@ -21,8 +21,14 @@ resource "aws_ecs_service" "service" {
     assign_public_ip = false
   }
 
+
+  deployment_circuit_breaker {
+    enable   = var.deployment_circuit_breaker
+    rollback = var.deployment_circuit_breaker_rollback
+  }
+
   dynamic "service_registries" {
-    for_each = var.service_discovery_namespace_id == null ? [] : [{}]
+    for_each = local.enable_service_discovery ? ["single"] : []
 
     content {
       registry_arn = aws_service_discovery_service.service_discovery["single"].arn

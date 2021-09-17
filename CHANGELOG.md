@@ -1,5 +1,73 @@
 # CHANGELOG
 
+## v3.11.0 - 2021-09-17
+
+This change adds deployment circuit breaker configuration to our ECS module and enables it by default.
+
+Enabling the "deployment circuit breaker", turns on detection of repeated failed attempts to start tasks as part of an ECS deployment and will "cancel" a deployment if a particular threshold for failed tasks is met.
+
+## v3.9.4 - 2021-08-02
+
+Only retain CloudWatch logs for the log router for 7 days, rather than forever.
+
+This affects the `firelens` module.
+
+## v3.9.3 - 2021-07-14
+
+Same as the previous release, but now actually using the region.
+
+## v3.9.2 - 2021-07-14
+
+Use the provider region for the CloudWatch Logs group in the `firelens` module, rather than requiring eu-west-1.
+
+## v3.9.1 - 2021-07-05
+
+This fixes two bugs:
+
+-   You couldn't create an ECS task that read secrets from Secrets Manager if the secrets didn't exist yet (e.g. if they were being created as part of the same Terraform configuration).
+
+    Now you can configure secrets that don't exist yet as long as you're not looking up a specific key within that secret.
+
+-   Fix a bug where service namespace discovery wasn't being enabled/disabled correctly.
+
+## v3.9.0 - 2021-07-02
+
+Add a boolean `enable_service_discovery` variable to the `service` module.
+
+This allows callers to confirm that they're definitely going to use service discovery, and prevent an error like:
+
+> The "for_each" value depends on resource attributes that cannot be
+> determined until apply, so Terraform cannot predict how many instances
+> will be created. To work around this, use the -target argument to first
+> apply only the resources that the for_each depends on.
+
+## v3.8.0 - 2021-07-01
+
+You can now set the `container_registry` and `container_name` in the `nginx/apigw` module, e.g. if you want to pull your fluentbit container from our ECR Public repo (<https://gallery.ecr.aws/l7a1d1z4/nginx_apigw>).
+
+## v3.7.0 - 2021-07-01
+
+You can now set the `container_registry` and `container_name` in the `firelens` module, e.g. if you want to pull your fluentbit container from our ECR Public repo (<https://gallery.ecr.aws/l7a1d1z4/fluentbit>).
+
+## v3.6.0 - 2021-05-21
+
+This change means that we access/reference secrets directly in Secrets Manager, rather than by using the Parameter Store integration.
+
+Whilst this is more verbose, it means that consumers can directly reference specific keys within secrets that are JSON objects - as this is a feature of Secrets Manager, not parameter store.
+
+## v3.5.2 - 2021-04-20
+
+Fix a bug in the firelens module in v3.5.1.
+
+## v3.5.1 - 2021-04-20
+
+Fix a bug in the firelens module in v3.5.0.
+
+## v3.5.0 - 2021-04-20
+
+The CloudWatch log group is now created (and deleted) by the Terraform module, rather than created on-the-fly by the services.
+This means old log groups will get cleaned up when you delete a service, rather than hanging around forever.
+
 ## v3.4.0 - 2021-03-11
 
 This adds a variable `use_privatelink_endpoint` to the `firelens` module, which causes logs to be sent via the PrivateLink endpoint instead of over the public Internet/NAT Gateway.

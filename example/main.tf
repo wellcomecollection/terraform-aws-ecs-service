@@ -50,11 +50,13 @@ module "app_container_definition" {
 module "log_router_container" {
   source    = "../modules/firelens"
   namespace = local.namespace
+
+  use_privatelink_endpoint = true
 }
 
-module "log_router_permissions" {
+module "log_router_container_secrets_permissions" {
   source    = "../modules/secrets"
-  secrets   = local.shared_secrets_logging
+  secrets   = module.log_router_container.shared_secrets_logging
   role_name = module.task_definition.task_execution_role_name
 }
 

@@ -6,11 +6,13 @@
         env:
           - BUILDKITE_BRANCH
           - BUILDKITE_REPO
+  agents:
+    queue: nano
 
 - wait
 
 - label: "release"
-  if: build.branch == "master"
+  if: build.branch == "main"
   plugins:
     - docker-compose#v3.5.0:
         run: tooling
@@ -18,3 +20,5 @@
         env:
           - BUILDKITE_BRANCH
           - BUILDKITE_REPO
+  agents:
+    queue: nano
