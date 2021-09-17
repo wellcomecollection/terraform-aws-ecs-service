@@ -28,6 +28,6 @@ variable "use_privatelink_endpoint" {
 
 variable "essential" {
   description = "Is the logging container essential?"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
