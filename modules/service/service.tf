@@ -21,13 +21,10 @@ resource "aws_ecs_service" "service" {
     assign_public_ip = false
   }
 
-  dynamic "deployment_circuit_breaker" {
-    for_each = var.deployment_circuit_breaker ? ["single"] : []
 
-    content {
-      enable   = true
-      rollback = var.deployment_circuit_breaker_rollback
-    }
+  deployment_circuit_breaker {
+    enable   = var.deployment_circuit_breaker
+    rollback = var.deployment_circuit_breaker_rollback
   }
 
   dynamic "service_registries" {
