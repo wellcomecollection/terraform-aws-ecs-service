@@ -31,14 +31,14 @@ variable "service_discovery_namespace_id" {
 # Enable the ECS deployment circuit breaker
 # https://aws.amazon.com/blogs/containers/announcing-amazon-ecs-deployment-circuit-breaker/
 variable "deployment_circuit_breaker" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
   description = "Enable the ECS deployment circuit breaker functionality"
 }
 
 variable "deployment_circuit_breaker_rollback" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
   description = "If deployment_circuit_breaker is true, this enables automated rollback on failure"
 }
 
