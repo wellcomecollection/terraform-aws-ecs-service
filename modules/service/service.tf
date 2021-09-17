@@ -21,6 +21,15 @@ resource "aws_ecs_service" "service" {
     assign_public_ip = false
   }
 
+  dynamic "deployment_circuit_breaker" {
+    for_each = var.deployment_circuit_breaker ? ["single"] : []
+
+    content {
+      enable = true
+      rollback = var.deployment_circuit_breaker_rollback
+    }
+  }
+
   dynamic "service_registries" {
     for_each = local.enable_service_discovery ? ["single"] : []
 

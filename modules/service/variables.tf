@@ -28,6 +28,16 @@ variable "service_discovery_namespace_id" {
   default = null
 }
 
+variable "deployment_circuit_breaker" {
+  type    = bool
+  default = true
+}
+
+variable "deployment_circuit_breaker_rollback" {
+  type = bool
+  default = false
+}
+
 variable "enable_service_discovery" {
   type    = bool
   default = null
