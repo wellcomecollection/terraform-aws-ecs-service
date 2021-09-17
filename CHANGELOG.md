@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.11.1 - 2021-09-17
+
+Make the logging container non-essential to prevent deployment issues where logging container cannot start (e.g. unavailable secrets)
+
 ## v3.11.0 - 2021-09-17
 
 This change adds deployment circuit breaker configuration to our ECS module and enables it by default.
