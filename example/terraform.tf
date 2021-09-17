@@ -14,13 +14,13 @@ terraform {
   required_version = ">= 0.12"
 }
 
-data "terraform_remote_state" "infra_shared" {
+data "terraform_remote_state" "accounts_platform" {
   backend = "s3"
 
   config = {
     role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
     bucket   = "wellcomecollection-platform-infra"
-    key      = "terraform/platform-infrastructure/shared.tfstate"
+    key      = "terraform/platform-infrastructure/accounts/platform.tfstate"
     region   = "eu-west-1"
   }
 }
