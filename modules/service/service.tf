@@ -25,7 +25,7 @@ resource "aws_ecs_service" "service" {
     for_each = var.deployment_circuit_breaker ? ["single"] : []
 
     content {
-      enable = true
+      enable   = true
       rollback = var.deployment_circuit_breaker_rollback
     }
   }

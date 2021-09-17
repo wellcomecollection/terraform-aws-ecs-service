@@ -37,7 +37,7 @@ variable "deployment_circuit_breaker" {
 }
 
 variable "deployment_circuit_breaker_rollback" {
-  type = bool
+  type    = bool
   default = false
   description = "If deployment_circuit_breaker is true, this enables automated rollback on failure"
 }
