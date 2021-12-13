@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.12.0 - 2021-12-13
+
+Make the image name as well as tag configurable for the frontend nginx module.
+
 ## v3.11.1 - 2021-09-17
 
 Make the logging container non-essential to prevent deployment issues where logging container cannot start (e.g. unavailable secrets)
