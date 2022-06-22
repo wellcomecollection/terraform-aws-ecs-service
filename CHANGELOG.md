@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.12.1 - 2022-06-22
+
+Remove the deprecated template provider from the `ec2_capacity_provider` module.
+
 ## v3.12.0 - 2021-12-13
 
 Make the image name as well as tag configurable for the frontend nginx module.
