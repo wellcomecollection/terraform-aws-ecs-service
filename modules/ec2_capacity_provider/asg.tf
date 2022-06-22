@@ -42,7 +42,7 @@ resource "aws_launch_template" "launch_template" {
   instance_type          = var.instance_type
   image_id               = var.ami_id == null ? data.aws_ami.ecs_optimized.id : var.ami_id
   vpc_security_group_ids = var.security_group_ids
-  user_data              = base64encode(data.template_file.user_data.rendered)
+  user_data              = base64encode(local.user_data)
   update_default_version = true
 
   ebs_optimized = var.ebs_size_gb > 0
@@ -94,10 +94,11 @@ data "aws_ami" "ecs_optimized" {
   }
 }
 
-data "template_file" "user_data" {
-  template = file("${path.module}/user_data.tpl")
-
-  vars = {
-    cluster_name = var.cluster_name
-  }
+locals {
+  user_data = templatefile(
+    "${path.module}/user_data.tpl",
+    {
+      cluster_name = var.cluster_name
+    }
+  )
 }
