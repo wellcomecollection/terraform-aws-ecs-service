@@ -17,7 +17,7 @@ variable "container_name" {
 
 variable "container_tag" {
   type    = string
-  default = "2ccd2c68f38aa77a8ac1a32fe3ea54bbbd397a38"
+  default = "0fe256a94441ceff15629344d4225fbb64457fdd"
 }
 
 variable "use_privatelink_endpoint" {
