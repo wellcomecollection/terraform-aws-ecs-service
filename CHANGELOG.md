@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.12.2 - 2022-08-30
+
+Use the new fluentbit image which includes configuration compatible with ES 8
+
 ## v3.12.1 - 2022-06-22
 
 Remove the deprecated template provider from the `ec2_capacity_provider` module.
