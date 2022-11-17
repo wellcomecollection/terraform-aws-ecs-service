@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v3.13.0 - 2022-11-17
+
+Remove the `deployment_env` and `deployment_service` variables from the service module, which were used by weco-deploy.
+We're no longer using weco-deploy (see [wellcomecollection/platform#5631](https://github.com/wellcomecollection/platform/issues/5631)), so we don't need these tags/variables.
+
 ## v3.12.2 - 2022-08-30
 
 Use the new fluentbit image which includes configuration compatible with ES 8
