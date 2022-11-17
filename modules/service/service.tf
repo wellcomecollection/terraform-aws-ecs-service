@@ -105,7 +105,7 @@ resource "aws_ecs_service" "service" {
     }
   }
 
-  tags           = local.tags
+  tags           = var.tags
   propagate_tags = var.propagate_tags
 
   # The desired_count of our services can be changed externally (e.g. by autoscaling).
@@ -118,15 +118,4 @@ resource "aws_ecs_service" "service" {
       desired_count,
     ]
   }
-}
-
-locals {
-  deployment_tags_template = {
-    "deployment:env" : var.deployment_env
-    "deployment:service" : var.deployment_service
-  }
-
-  deployment_tags = { for k, v in local.deployment_tags_template : k => v if v != "" }
-
-  tags = merge(local.deployment_tags, var.tags)
 }
