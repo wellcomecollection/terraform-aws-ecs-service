@@ -30,9 +30,10 @@ locals {
   // This results in secrets having the same SSM paths in every account,
   // although those paths refer to the secrets in that particular account.
   shared_secrets_logging = {
-    ES_USER = "shared/logging/es_user"
-    ES_PASS = "shared/logging/es_pass"
-    ES_HOST = var.use_privatelink_endpoint ? "shared/logging/es_host_private" : "shared/logging/es_host"
-    ES_PORT = "shared/logging/es_port"
+    ES_USER          = "shared/logging/es_user"
+    ES_PASS          = "shared/logging/es_pass"
+    ES_HOST          = var.use_privatelink_endpoint ? "shared/logging/es_host_private" : "shared/logging/es_host"
+    ES_PORT          = "shared/logging/es_port"
+    DATA_STREAM_NAME = "shared/logging/firelens_data_stream_name"
   }
 }
