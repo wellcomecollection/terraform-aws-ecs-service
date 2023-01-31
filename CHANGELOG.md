@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.13.1 - 2023-01-31
+
+Bump default logging sidecar image version and inject data stream name config for it to use
+
 ## v3.13.0 - 2022-11-17
 
 Remove the `deployment_env` and `deployment_service` variables from the service module, which were used by weco-deploy.
