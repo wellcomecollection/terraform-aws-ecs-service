@@ -1,5 +1,5 @@
 locals {
-  filtered_log_configuration = { for k, v in var.log_configuration : k => v if v != null }
+  filtered_log_configuration = var.log_configuration != null ? { for k, v in var.log_configuration : k => v if v != null } : null
 
   container_definition = {
     essential = var.essential
