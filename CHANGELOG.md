@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.13.2 - 2023-04-13
+
+Fixes a bug in which, if the optional `log_configuration` variable for `container_definition` was not specified, stack planning would fail
+
 ## v3.13.1 - 2023-01-31
 
 Bump default logging sidecar image version and inject data stream name config for it to use
