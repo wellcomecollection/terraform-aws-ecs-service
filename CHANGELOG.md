@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.14.0 - 2023-06-22
+
+Also export the ARN from the service module.
+
 ## v3.13.2 - 2023-04-13
 
 Fixes a bug in which, if the optional `log_configuration` variable for `container_definition` was not specified, stack planning would fail
@@ -217,7 +221,7 @@ Updates modules/firelens & modules/nginx/apigw.
 
 Adds default nginx image template to modules/nginx/apigw
 
-Example usage: 
+Example usage:
 
 ```
 module "nginx_container" {
@@ -319,9 +323,9 @@ module "task_definition" {
 This change provides modules implementing the updated logging pattern described in https://github.com/wellcomecollection/docs/tree/master/rfcs/022-logging.
 
  In order to use the logging container you will need to ensure your account has the correct secrets provisioned (See https://github.com/wellcomecollection/platform-infrastructure/blob/master/shared/secrets.tf).
- 
- To use the new logging pattern, you will need to create a log router container (a Wellcome specific fluentbit image) and provide it the correct permissions to access secrets (used to auth with Elasticsearch). 
- 
+
+ To use the new logging pattern, you will need to create a log router container (a Wellcome specific fluentbit image) and provide it the correct permissions to access secrets (used to auth with Elasticsearch).
+
  ```hcl-terraform
 module "log_router_container" {
   source    = "../modules/firelens"
@@ -359,7 +363,7 @@ module "task_definition" {
   task_name    = "task_name"
 }
 ```
- 
+
 All other logging configuration is supported as per https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html.
 
 ## v1.7.0 - 2020-04-07
