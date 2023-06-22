@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.14.1 - 2023-06-22
+
+Fix exporting the ARN from the service module.
+
 ## v3.14.0 - 2023-06-22
 
 Also export the ARN from the service module.

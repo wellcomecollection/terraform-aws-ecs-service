@@ -1,5 +1,5 @@
 output "arn" {
-  value = aws_ecs_service.service.arn
+  value = aws_ecs_service.service.id
 }
 
 output "name" {
