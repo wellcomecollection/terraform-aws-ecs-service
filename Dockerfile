@@ -19,4 +19,13 @@ RUN echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
     tee /etc/apt/sources.list.d/hashicorp.list
 RUN apt update && apt-get install -y terraform
 
+# This is to avoid warnings like:
+#
+#   fatal: detected dubious ownership in repository at '/workdir'
+#   To add an exception for this directory, call:
+#
+#   	git config --global --add safe.directory /workdir
+#
+RUN git config --global --add safe.directory /workdir
+
 ENTRYPOINT ["/workdir/scripts/tooling.py"]
