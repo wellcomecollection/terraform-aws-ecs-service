@@ -6,10 +6,26 @@ WORKDIR /workdir
 
 ADD . /workdir
 
-RUN apt-get update && apt-get install -y software-properties-common
+# These instructions are taken from the Terraform docs for installing
+# the CLI, retrieved 23 June 2023
+#
+# See https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+RUN apt-get update && apt-get install -y gnupg software-properties-common
+RUN wget -O- https://apt.releases.hashicorp.com/gpg | \
+    gpg --dearmor | \
+    tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+RUN echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+    https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+    tee /etc/apt/sources.list.d/hashicorp.list
+RUN apt update && apt-get install -y terraform
 
-RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
-RUN apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-RUN apt-get update && apt-get install -y terraform
+# This is to avoid warnings like:
+#
+#   fatal: detected dubious ownership in repository at '/workdir'
+#   To add an exception for this directory, call:
+#
+#   	git config --global --add safe.directory /workdir
+#
+RUN git config --global --add safe.directory /workdir
 
 ENTRYPOINT ["/workdir/scripts/tooling.py"]

@@ -42,6 +42,12 @@ variable "deployment_circuit_breaker_rollback" {
   description = "If deployment_circuit_breaker is true, this enables automated rollback on failure"
 }
 
+variable "turn_off_outside_office_hours" {
+  type        = bool
+  default     = false
+  description = "If true, scale the service to 0 tasks outside UK office hours"
+}
+
 variable "enable_service_discovery" {
   type    = bool
   default = null
