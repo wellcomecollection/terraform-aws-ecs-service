@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.15.3 - 2023-06-27
+
+Fix a bug introduced in v3.15.0 with the new scaling stuff.
+
 ## v3.15.2 - 2023-06-27
 
 Fix a bug introduced in v3.15.0 with the new scaling stuff.
