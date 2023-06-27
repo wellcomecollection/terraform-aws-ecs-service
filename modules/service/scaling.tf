@@ -67,7 +67,7 @@ resource "aws_scheduler_schedule" "turn_on_in_the_morning" {
 
   target {
     arn      = "arn:aws:scheduler:::aws-sdk:ecs:updateService"
-    role_arn = aws_iam_role.scheduler.arn
+    role_arn = aws_iam_role.scheduler[0].arn
 
     input = jsonencode({
       Cluster      = var.cluster_name
@@ -92,7 +92,7 @@ resource "aws_scheduler_schedule" "turn_off_in_the_evening" {
 
   target {
     arn      = "arn:aws:scheduler:::aws-sdk:ecs:updateService"
-    role_arn = aws_iam_role.scheduler.arn
+    role_arn = aws_iam_role.scheduler[0].arn
 
     input = jsonencode({
       Cluster      = var.cluster_name
