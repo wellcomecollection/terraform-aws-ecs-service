@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v3.15.1 - 2023-06-27
+
+Fix a bug introduced in v3.15.0 with the new scaling stuff.
+
 ## v3.15.0 - 2023-06-26
 
 This implements some basic economy measures in the `service` module: services can now be disabled outside UK office hours.
