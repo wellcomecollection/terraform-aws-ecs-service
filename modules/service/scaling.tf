@@ -70,7 +70,7 @@ resource "aws_scheduler_schedule" "turn_on_in_the_morning" {
     role_arn = aws_iam_role.scheduler[0].arn
 
     input = jsonencode({
-      Cluster      = var.cluster_name
+      Cluster      = var.cluster_arn
       Service      = aws_ecs_service.service.name
       DesiredCount = var.desired_task_count
     })
@@ -95,7 +95,7 @@ resource "aws_scheduler_schedule" "turn_off_in_the_evening" {
     role_arn = aws_iam_role.scheduler[0].arn
 
     input = jsonencode({
-      Cluster      = var.cluster_name
+      Cluster      = var.cluster_arn
       Service      = aws_ecs_service.service.name
       DesiredCount = 0
     })
