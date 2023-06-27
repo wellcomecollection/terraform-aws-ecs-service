@@ -45,7 +45,7 @@ data "aws_iam_policy_document" "allow_update_service" {
 resource "aws_iam_role_policy" "allow_update_service" {
   count = var.turn_off_outside_office_hours ? 1 : 0
 
-  role   = aws_iam_role.scheduler.name
+  role   = aws_iam_role.scheduler[0].name
   policy = data.aws_iam_policy_document.allow_update_service.json
 }
 
