@@ -9,6 +9,8 @@
 #
 # This is only meant for persistently-running services -- anything which
 # uses autoscaling should already be turning itself off when not in use.
+#
+# For an explanation of how this code works, see https://alexwlchan.net/2023/bedtime-for-ecs/
 
 resource "aws_iam_role" "scheduler" {
   count = var.turn_off_outside_office_hours ? 1 : 0
