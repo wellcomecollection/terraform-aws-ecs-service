@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v4.0.0 - 2024-02-02
+
+Updates the name of the nginx frontend container image and requires consumers to specify a tag to avoid unintentional version changes.
+
 ## v3.15.3 - 2023-06-27
 
 Fix a bug introduced in v3.15.0 with the new scaling stuff.
