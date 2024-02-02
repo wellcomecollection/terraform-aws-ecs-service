@@ -20,12 +20,14 @@ variable "log_configuration" {
   default = null
 }
 
+# Require the user to specify the container tag, so we can't accidentally
+# deploy the wrong version of the container unintentionally.
 variable "container_tag" {
-  type    = string
-  default = "28e3e1b1cd4e8ad69ff44f28757eedff9c99a661"
+  type        = string
+  description = "See https://github.com/wellcomecollection/platform-infrastructure/tree/main/images/dockerfiles"
 }
 
 variable "image_name" {
   type    = string
-  default = "uk.ac.wellcome/nginx_experience"
+  default = "uk.ac.wellcome/nginx_frontend"
 }
