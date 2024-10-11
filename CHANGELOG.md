@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v4.1.0 - 2024-10-11
+
+Allow entrypoint to be configurable, this enables more flexibility downstream in container usage.
+
 ## v4.0.0 - 2024-02-02
 
 Updates the name of the nginx frontend container image and requires consumers to specify a tag to avoid unintentional version changes.
