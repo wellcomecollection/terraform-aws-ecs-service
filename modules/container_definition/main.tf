@@ -7,6 +7,8 @@ locals {
     image     = var.image
     command   = var.command
 
+    entrypoint = var.entrypoint
+
     cpu    = var.cpu
     memory = var.memory
 
