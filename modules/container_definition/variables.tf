@@ -103,6 +103,11 @@ variable "memory" {
   default = null
 }
 
+variable "entrypoint" {
+  type    = list(string)
+  default = null
+}
+
 variable "memory_reservation" {
   type    = number
   default = null
