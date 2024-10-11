@@ -6,7 +6,7 @@ locals {
     name      = var.name
     image     = var.image
     command   = var.command
-    
+
     entrypoint = var.entrypoint
 
     cpu    = var.cpu
