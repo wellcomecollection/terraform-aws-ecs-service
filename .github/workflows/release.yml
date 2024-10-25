@@ -1,0 +1,81 @@
+name: "Release new version of the module"
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  autoformat:
+    uses: ./.github/workflows/tf_formatting.yml
+  
+  # First, check if there is a RELEASE.md file in the root of the repository.
+  # If not, no release will be created and subsequent steps and jobs will be skipped.
+  check-for-release-file:
+    runs-on: ubuntu-latest
+    outputs:
+      has-release: ${{ steps.check-for-release-file.outputs.has-release }}
+    needs: autoformat
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for RELEASE.md file
+        id: check-for-release-file
+        run: |
+          if [ ! -f ./RELEASE.md ]; then
+            echo "has-release=false" >> $GITHUB_OUTPUT
+            echo "No release detected. Exiting."
+            exit 0
+          fi
+          echo "has-release=true" >> $GITHUB_OUTPUT
+
+  create-release:
+    runs-on: ubuntu-latest
+    outputs:
+      new-version: ${{ steps.create-release.outputs.new-version }}
+    needs: check-for-release-file
+    if: needs.check-for-release-file.outputs.has-release == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Update CHANGELOG.md and version
+        id: create-release
+        run: |
+          git fetch --tags
+          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          python3 gha_scripts/create_release.py ${LATEST_TAG} $(pwd)
+          
+          VERSION_TAG="$(cat CHANGELOG.md | grep -m1 -o 'v[0-9]\+\.[0-9]\+\.[0-9]\+')"
+          echo "new-version=${VERSION_TAG:1}" >> $GITHUB_OUTPUT          
+
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: 129326 # App ID of the Wellcome Collection app
+          private-key: ${{ secrets.WELLCOME_COLLECTION_APP_PRIVATE_KEY }}
+        
+      # We need to give the GitHub action full repo privileges so that it can push the release directly into main
+      - name: Configure git
+        run: |
+          git config --global user.name "GitHub on behalf of Wellcome Collection"
+          git config --global user.email "wellcomedigitalplatform@wellcome.ac.uk"
+          git remote set-url origin https://x-access-token:${{ steps.generate-token.outputs.token }}@github.com/${{ github.repository }}.git
+
+      - name: Commit and push changes
+        run: |
+          git checkout main
+          git pull
+          git add CHANGELOG.md
+          git rm RELEASE.md
+          
+          NEW_TAG="v${{ steps.create-release.outputs.new-version }}"
+          git commit -m "$(printf "Bump version to ${NEW_TAG}\n\n[skip ci]")"
+          git tag ${NEW_TAG}
+
+          git push origin main
+          git push origin --tags    
