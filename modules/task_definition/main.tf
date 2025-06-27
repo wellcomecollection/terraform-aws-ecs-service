@@ -20,7 +20,7 @@ resource "aws_ecs_task_definition" "task" {
   ephemeral_storage = {
     size_in_gib = var.ephemeral_storage_size
   }
-  
+
 
   # Unused here, but must be set to prevent churn
   tags = {}
