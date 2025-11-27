@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v4.2.0 - 2025-11-27
+
+Use the new Fluentbit image which includes a parser for json logs
+
 ## v4.1.0 - 2024-10-11
 
 Allow entrypoint to be configurable, this enables more flexibility downstream in container usage.
