@@ -28,8 +28,9 @@ variable "memory" {
 }
 
 variable "ephemeral_storage_size" {
-  type    = number
-  default = 20
+  type        = number
+  default     = 21
+  description = "The size of ephemeral storage (in GiB) to allocate for the task. Minimum is 21. Set to null to exclude the ephemeral storage block."
 }
 
 variable "volumes" {
