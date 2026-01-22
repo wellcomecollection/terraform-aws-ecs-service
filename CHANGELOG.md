@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v4.3.0 - 2026-01-22
+
+Add optional `ephemeral_storage_size` variable to the task_definition module.
+
+- The ephemeral storage block is now dynamic and can be excluded by setting `ephemeral_storage_size` to `null`
+- Default value is `21` (the minimum allowed value)
+- Updated README with module documentation
+
 ## v4.2.0 - 2025-11-27
 
 Use the new Fluentbit image which includes a parser for json logs
