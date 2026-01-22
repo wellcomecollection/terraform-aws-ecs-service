@@ -18,10 +18,13 @@ resource "aws_ecs_task_definition" "task" {
   cpu    = var.cpu
   memory = var.memory
 
-  ephemeral_storage {
-    size_in_gib = var.ephemeral_storage_size
-  }
+  dynamic "ephemeral_storage" {
+    for_each = var.ephemeral_storage_size != null ? [var.ephemeral_storage_size] : []
 
+    content {
+      size_in_gib = ephemeral_storage.value
+    }
+  }
 
   # Unused here, but must be set to prevent churn
   tags = {}
