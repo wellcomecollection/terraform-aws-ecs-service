@@ -2,7 +2,7 @@ data "aws_region" "current" {}
 
 locals {
   log_group_name = var.namespace
-  aws_region     = data.aws_region.current.name
+  aws_region     = data.aws_region.current.region
 }
 
 resource "aws_cloudwatch_log_group" "log_router" {
