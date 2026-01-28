@@ -11,7 +11,7 @@ data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 locals {
-  aws_region     = data.aws_region.current.name
+  aws_region     = data.aws_region.current.region
   account_id     = data.aws_caller_identity.current.account_id
   ssm_iam_prefix = "arn:aws:ssm:${local.aws_region}:${local.account_id}:parameter/aws/reference/secretsmanager"
 }
