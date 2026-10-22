@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v4.4.0 - 2026-10-22
+
+Update the default nginx apigw sidecar image to nginx 1.30.6 on Alpine 3.24, replacing the 2020 image on nginx 1.15.8.
+
 ## v4.3.1 - 2026-01-29
 
 The AWS provider has deprecated aws_region.name in favour of using aws_region.region
