@@ -4,18 +4,26 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
 
 permissions:
   id-token: write
   contents: write
+  pull-requests: write
 
 jobs:
   autoformat:
+    if: github.event_name == 'push'
     uses: ./.github/workflows/tf_formatting.yml
   
   # First, check if there is a RELEASE.md file in the root of the repository.
   # If not, no release will be created and subsequent steps and jobs will be skipped.
   check-for-release-file:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     outputs:
       has-release: ${{ steps.check-for-release-file.outputs.has-release }}
@@ -52,30 +60,39 @@ jobs:
           VERSION_TAG="$(cat CHANGELOG.md | grep -m1 -o 'v[0-9]\+\.[0-9]\+\.[0-9]\+')"
           echo "new-version=${VERSION_TAG:1}" >> $GITHUB_OUTPUT          
 
-      - name: Generate a token
-        id: generate-token
-        uses: actions/create-github-app-token@v1
+      - name: Create release pull request
+        uses: peter-evans/create-pull-request@v8
         with:
-          app-id: 129326 # App ID of the Wellcome Collection app
-          private-key: ${{ secrets.WELLCOME_COLLECTION_APP_PRIVATE_KEY }}
-        
-      # We need to give the GitHub action full repo privileges so that it can push the release directly into main
-      - name: Configure git
-        run: |
-          git config --global user.name "GitHub on behalf of Wellcome Collection"
-          git config --global user.email "wellcomedigitalplatform@wellcome.ac.uk"
-          git remote set-url origin https://x-access-token:${{ steps.generate-token.outputs.token }}@github.com/${{ github.repository }}.git
+          branch: release/${{ steps.create-release.outputs.new-version }}
+          base: main
+          add-paths: |
+            CHANGELOG.md
+            RELEASE.md
+          commit-message: Bump version to v${{ steps.create-release.outputs.new-version }}
+          title: Release v${{ steps.create-release.outputs.new-version }}
+          body: Automated release pull request.
+          delete-branch: true
 
-      - name: Commit and push changes
+  tag-release:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout merged release
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+      - name: Create and push release tag
+        env:
+          RELEASE_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          git checkout main
-          git pull
-          git add CHANGELOG.md
-          git rm RELEASE.md
-          
-          NEW_TAG="v${{ steps.create-release.outputs.new-version }}"
-          git commit -m "$(printf "Bump version to ${NEW_TAG}\n\n[skip ci]")"
-          git tag ${NEW_TAG}
+          if [[ ! "$RELEASE_BRANCH" =~ ^release/[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Unexpected release branch: $RELEASE_BRANCH" >&2
+            exit 1
+          fi
 
-          git push origin main
-          git push origin --tags    
+          git tag "v${RELEASE_BRANCH#release/}"
+          git push origin "v${RELEASE_BRANCH#release/}"
