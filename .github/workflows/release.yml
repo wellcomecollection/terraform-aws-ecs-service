@@ -29,7 +29,7 @@ jobs:
       has-release: ${{ steps.check-for-release-file.outputs.has-release }}
     needs: autoformat
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Check for RELEASE.md file
         id: check-for-release-file
         run: |
@@ -48,7 +48,7 @@ jobs:
     if: needs.check-for-release-file.outputs.has-release == 'true'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       
       - name: Update CHANGELOG.md and version
         id: create-release
@@ -82,7 +82,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout merged release
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
       - name: Create and push release tag
