@@ -35,5 +35,5 @@ variable "container_name" {
 
 variable "container_tag" {
   type    = string
-  default = "db63674d25832955b2127ecdc0d8ec3c2129fcab"
+  default = "a7ebe942849d2368af6de85fa1c4ca639a293bf3"
 }
