@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v4.6.0 - 2026-11-05
+
+Update the default sidecar images: fluentbit to aws-for-fluent-bit 3.5.5 (`0b9948b`), and nginx apigw to `a7ebe94`, which adds the Alpine brotli and curl fixes.
+
 ## v4.5.0 - 2026-11-04
 
 Update the default sidecar images: fluentbit to aws-for-fluent-bit 3.5.5 (`0b9948b`), and nginx apigw to `a7ebe94`, which adds the Alpine brotli and curl fixes.
